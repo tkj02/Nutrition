@@ -17,19 +17,21 @@
             <th></th>
             <th></th>
         </tr>
+        
+        <!-- placeholder -- use app.data.plate -->
         [[for row in plate_rows:]]
         <tr>
             <td>[[=row.food_name]]</td>
             <td>[[=row.quantity]]</td>
             <td>[[=row.calories]]</td>
             <td>
-                <a class="button" @click="edit_entry">
+                <a class="button" @click="edit_entry(row)">
                     <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
                     <span>Edit</span>
                 </a>
             </td>
             <td>
-                <a class="button is-danger" @click="remove_entry">
+                <a class="button is-danger" @click="remove_entry(row)">
                     <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
                 </a>
             </td>
@@ -54,6 +56,8 @@
             <th></th>
             <th></th>
         </tr>
+        
+        <!-- placeholder -- use app.data.total -->
         [[for row in total_rows:]]
         <tr>
             <td></td>

@@ -8,6 +8,8 @@ let init = (app) => {
 
     // This is the Vue data.
     app.data = {
+        plate: [],
+        total: []
     };    
 
     app.enumerate = (a) => {
@@ -17,12 +19,12 @@ let init = (app) => {
         return a;
     };
     
-    app.edit_entry = function(){
+    app.edit_entry = function(row){
         //complete
         console.log('in entry');
     }
     
-    app.remove_entry = function(){
+    app.remove_entry = function(row){
         //complete
         console.log('in remove');
     }
