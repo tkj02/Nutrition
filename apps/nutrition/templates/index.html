@@ -6,22 +6,44 @@
 }
 </style>
 
-
 <div class="section" id="vue-target" v-cloak>
-  <!-- Put here your Vue.js template -->
-
-  <div class="columns">
+    <div class="columns">
       <div class="column">
-          [Plate title and table] 
+          <h1>[Plate title and table]</h1> 
+          
+          <table class="table is-striped is-fullwidth">
+              <tr>
+                  <th>Food Item</th>
+                  <th>Quantity</th>
+                  <th>Calories</th>
+              </tr>
+              [[for row in plate_rows:]]
+              <tr>
+                  <td>[[=row.food_name]]</td>
+                  <td>[[=row.quantity]]</td>
+                  <td>[[=row.calories]]</td>
+                  <td>
+                      <a class="button">
+                          <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>Edit</span>
+                      </a>
+                  </td>
+                  <td>
+                      <a class="button">
+                          <span class="icon"><i class="fa fa-fw fa-plus"></i></span>
+                          <span>1</span>
+                      </a>
+                  </td>
+              </tr>
+              [[pass]]
+          </table>
       </div>
-  </div>
+    </div>
     
-  <div class="columns">
-      <div class="column">
-          [Total title and table]  
-      </div>
-  </div>
-
+    <div class="columns">
+        <div class="column">
+            [Total title and table]
+        </div>
+    </div>
 </div>
 
 

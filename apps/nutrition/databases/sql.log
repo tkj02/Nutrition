@@ -29,3 +29,46 @@ CREATE TABLE "auth_user_tag_groups"(
     "record_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  
 );
 success!
+timestamp: 2023-05-26T22:15:38.922107
+CREATE TABLE "plate"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "food_name" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "created_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "modified_on" TIMESTAMP,
+    "modified_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "is_active" CHAR(1)
+);
+success!
+timestamp: 2023-05-26T22:15:38.925535
+CREATE TABLE "posts"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "username" CHAR(512),
+    "message" CHAR(512),
+    "created_on" TIMESTAMP,
+    "created_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "modified_on" TIMESTAMP,
+    "modified_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "is_active" CHAR(1)
+);
+success!
+timestamp: 2023-05-26T22:35:14.026905
+ALTER TABLE "plate" ADD "quantity" CHAR(512);
+success!
+timestamp: 2023-05-26T22:35:14.029938
+CREATE TABLE "total"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "quantity" CHAR(512),
+    "created_on" TIMESTAMP,
+    "created_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "modified_on" TIMESTAMP,
+    "modified_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "is_active" CHAR(1)
+);
+success!
+timestamp: 2023-05-26T22:44:46.537609
+ALTER TABLE "plate" ADD "calories" INTEGER;
+success!
+timestamp: 2023-05-26T22:44:46.543447
+ALTER TABLE "total" ADD "calories" INTEGER;
+success!
