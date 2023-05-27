@@ -7,47 +7,74 @@
 </style>
 
 <div class="section" id="vue-target" v-cloak>
-    <div class="columns">
-      <div class="column">
-          <h1>[Plate title and table]</h1> 
-          
-          <table class="table is-striped is-fullwidth">
-              <tr>
-                  <th>Food Item</th>
-                  <th>Quantity</th>
-                  <th>Calories</th>
-              </tr>
-              [[for row in plate_rows:]]
-              <tr>
-                  <td>[[=row.food_name]]</td>
-                  <td>[[=row.quantity]]</td>
-                  <td>[[=row.calories]]</td>
-                  <td>
-                      <a class="button">
-                          <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>Edit</span>
-                      </a>
-                  </td>
-                  <td>
-                      <a class="button">
-                          <span class="icon"><i class="fa fa-fw fa-plus"></i></span>
-                          <span>1</span>
-                      </a>
-                  </td>
-              </tr>
-              [[pass]]
-          </table>
-      </div>
-    </div>
+    <h1 class="title">Plate</h1> 
     
-    <div class="columns">
-        <div class="column">
-            [Total title and table]
-        </div>
-    </div>
+    <table class="table is-striped is-fullwidth">
+        <tr>
+            <th>Food Item</th>
+            <th>Quantity</th>
+            <th>Calories</th>
+            <th></th>
+            <th></th>
+        </tr>
+        [[for row in plate_rows:]]
+        <tr>
+            <td>[[=row.food_name]]</td>
+            <td>[[=row.quantity]]</td>
+            <td>[[=row.calories]]</td>
+            <td>
+                <a class="button" @click="edit_entry">
+                    <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
+                    <span>Edit</span>
+                </a>
+            </td>
+            <td>
+                <a class="button is-danger" @click="remove_entry">
+                    <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
+                </a>
+            </td>
+        </tr>
+        [[pass]]
+    </table>
+    
+    <a class="button is-primary" @click="add_entry">
+        <span>Add Food</span>
+    </a>
+    <a class="button is-info" @click="view_info">
+        <span>View Nutrition</span>
+    </a>
+
+    <h1 class="title"><br>Total</h1> 
+    
+    <table class="table is-striped is-fullwidth">
+        <tr>
+            <th></th>
+            <th>Quantity</th>
+            <th>Calories</th>
+            <th></th>
+            <th></th>
+        </tr>
+        [[for row in total_rows:]]
+        <tr>
+            <td></td>
+            <td>[[=row.quantity]]</td>
+            <td>[[=row.calories]]</td>
+            <td></td>
+            <td></td>
+        </tr>
+        [[pass]]
+    </table>
+    
 </div>
 
-
 [[block page_scripts]]
-<!-- Loads the index-specific js for Vue -->
+<script>
+    let edit_entry_url = "[[=XML(edit_entry_url)]]";
+    let remove_entry_url = "[[=XML(remove_entry_url)]]";
+    let add_food_url = "[[=XML(add_food_url)]]";
+    let view_info_url = "[[=XML(view_info_url)]]";
+</script>
 <script src="js/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
 [[end]]

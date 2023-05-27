@@ -11,8 +11,36 @@ from py4web.utils.form import Form, FormStyleBulma
 url_signer = URLSigner(session)
 
 @action('index')
-@action.uses('index.html', db, auth.user)
+@action.uses('index.html', db, auth.user, url_signer)
 def index():
     plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select()
-    return dict(plate_rows=plate_rows, url_signer=url_signer)
+    total_rows = db(db.total.created_by == auth.current_user.get('id')).select()
+    return dict(
+        plate_rows=plate_rows, 
+        total_rows=total_rows,
+        edit_entry_url = URL('edit_entry', signer=url_signer),
+        remove_entry_url = URL('remove_entry', signer=url_signer),
+        add_food_url = URL('add_food', signer=url_signer),
+        view_info_url = URL('view_info', signer=url_signer),
+        url_signer=url_signer
+    )
 
+@action('edit_entry', method=["GET", "POST"])
+@action.uses(db, auth.user)
+def edit_entry():
+    return dict()
+
+@action('remove_entry', method=["GET", "POST"])
+@action.uses(db, auth.user)
+def remove_entry():
+    return dict()
+
+@action('add_food', method=["GET", "POST"])
+@action.uses(db, auth.user)
+def add_food():
+    return dict()
+
+@action('view_info', method=["GET", "POST"])
+@action.uses(db, auth.user)
+def view_info():
+    return dict()

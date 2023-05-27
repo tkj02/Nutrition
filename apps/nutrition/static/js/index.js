@@ -1,41 +1,65 @@
 // This will be the object that will contain the Vue attributes
 // and be used to initialize it.
+let app = {};
 
 // Given an empty app object, initializes it filling its attributes,
 // creates a Vue instance, and then initializes the Vue instance.
-let init = function () {
+let init = (app) => {
 
-    var self = {};
-    
     // This is the Vue data.
-    self.data = {
-        // Complete as you see fit.
+    app.data = {
     };    
-    
-    self.enumerate = function (a) {
+
+    app.enumerate = (a) => {
         // This adds an _idx field to each element of the array.
         let k = 0;
         a.map((e) => {e._idx = k++;});
         return a;
-    };    
+    };
+    
+    app.edit_entry = function(){
+        //complete
+        console.log('in entry');
+    }
+    
+    app.remove_entry = function(){
+        //complete
+        console.log('in remove');
+    }
+    
+    app.add_entry = function(){
+        //complete
+        console.log('in add');
+    }
+    
+    app.view_info = function(){
+        //complete
+        console.log('in view info');
+    }
 
     // This contains all the methods.
-    self.methods = {
-        // Complete as you see fit.
+    app.methods = {
+        edit_entry: app.edit_entry,
+        remove_entry: app.remove_entry,
+        add_entry: app.add_entry,
+        view_info: app.view_info
     };
 
     // This creates the Vue instance.
-    self.vue = new Vue({
+    app.vue = new Vue({
         el: "#vue-target",
-        data: self.data,
-        methods: self.methods
+        data: app.data,
+        methods: app.methods
     });
 
-    // Put here any initialization code.
+    // And this initializes it.
+    app.init = () => {
+    };
 
-    return self;
+    // Call to the initializer.
+    app.init();
 };
 
 // This takes the (empty) app object, and initializes it,
 // putting all the code in it. 
-var app = init();
+init(app);
