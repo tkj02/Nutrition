@@ -9,8 +9,19 @@
 <div class="section" id="vue-target" v-cloak>
     
     <div v-if="add_food_mode == true">
-        <h1 class="title">Add Food Form</h1>
-        <a class="button is-success" @click="add_entry">
+        <h1 class="title">Add Food</h1>
+        
+        <h1 class="title">Food Name</h1>
+        <div class="field">
+            <span>search bar -- similar to asgn5 -- implement after all_foods db is filled -- save selection as food_name and pass into add_entry()</span>
+        </div>
+        
+        <h1 class="title">Quantity</h1>
+        <div class="field">
+            <textarea v-model="quantity" class="textarea" placeholder="Enter serving size as whole number" rows="2"></textarea>
+        </div>
+        
+        <a class="button is-success" @click="add_entry(food_name, quantity)">
             <span class="icon"><i class="fa fa-fw fa-check"></i></span>
             <span>Submit</span>
         </a>
@@ -22,7 +33,7 @@
     </div>
     
     <div v-else-if="view_nutrition_mode == true">
-        <h1 class="title">View Nutrition Search</h1>
+        <h1 class="title">View Nutrition</h1>
         
         <a class="button is-warning" @click="main_page_button">
             <span class="icon"><i class="fa fa-fw fa-arrow-left"></i></span>

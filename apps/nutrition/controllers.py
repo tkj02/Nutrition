@@ -12,7 +12,6 @@ url_signer = URLSigner(session)
 def index():
     plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select()
     total_rows = db(db.total.created_by == auth.current_user.get('id')).select()
-    #db.plate.insert(food_name='eggs', quantity='1', calories='20')
     return dict(
         plate_rows=plate_rows, 
         total_rows=total_rows,

@@ -13,6 +13,8 @@ let init = (app) => {
         main_page_mode: true,
         add_food_mode: false,
         view_nutrition_mode: false,
+        food_name: "",
+        quantity: ""
     };    
 
     app.enumerate = (a) => {
@@ -50,8 +52,10 @@ let init = (app) => {
         app.data.view_nutrition_mode = true;
     }
     
-    app.add_entry = function(){
+    app.add_entry = function(food_name, quantity){
         //complete
+        //convert quantity into an int before calculating
+        console.log(food_name, quantity);
     }
 
     // This contains all the methods.

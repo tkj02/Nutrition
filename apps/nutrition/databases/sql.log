@@ -72,3 +72,16 @@ success!
 timestamp: 2023-05-26T22:44:46.543447
 ALTER TABLE "total" ADD "calories" INTEGER;
 success!
+timestamp: 2023-06-01T00:40:34.492243
+CREATE TABLE "all_foods"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "food_name" CHAR(512),
+    "quantity" CHAR(512),
+    "calories" INTEGER,
+    "created_on" TIMESTAMP,
+    "created_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "modified_on" TIMESTAMP,
+    "modified_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "is_active" CHAR(1)
+);
+success!
