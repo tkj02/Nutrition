@@ -54,8 +54,13 @@ let init = (app) => {
     
     app.add_entry = function(food_name, quantity){
         //complete
-        //convert quantity into an int before calculating
+        //convert quantity into an int before calculating for total table
         console.log(food_name, quantity);
+        app.main_page_button();
+    }
+    
+    app.get_nutritional_info = function(food_name){
+        //complete
     }
 
     // This contains all the methods.
@@ -66,6 +71,7 @@ let init = (app) => {
         add_entry_button: app.add_entry_button,
         view_info_button: app.view_info_button,
         add_entry: app.add_entry,
+        get_nutritional_info: app.get_nutritional_info
     };
 
     // This creates the Vue instance.
