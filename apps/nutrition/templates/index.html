@@ -7,68 +7,86 @@
 </style>
 
 <div class="section" id="vue-target" v-cloak>
-    <h1 class="title">Plate</h1> 
     
-    <table class="table is-striped is-fullwidth">
-        <tr>
-            <th>Food Item</th>
-            <th>Quantity</th>
-            <th>Calories</th>
-            <th></th>
-            <th></th>
-        </tr>
-        
-        <!-- placeholder -- use app.data.plate -->
-        [[for row in plate_rows:]]
-        <tr>
-            <td>[[=row.food_name]]</td>
-            <td>[[=row.quantity]]</td>
-            <td>[[=row.calories]]</td>
-            <td>
-                <a class="button" @click="edit_entry(row)">
-                    <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
-                    <span>Edit</span>
-                </a>
-            </td>
-            <td>
-                <a class="button is-danger" @click="remove_entry(row)">
-                    <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
-                </a>
-            </td>
-        </tr>
-        [[pass]]
-    </table>
+    <div v-if="add_food_mode == true">
+        <h1 class="title">Add Food Form</h1> 
+        <a class="button" @click="main_page">
+            <span class="icon"><i class="fa fa-fw fa-arrow-left"></i></span>
+            <span>Back</span>
+        </a>
+    </div>
     
-    <a class="button is-primary" @click="add_entry">
-        <span>Add Food</span>
-    </a>
-    <a class="button is-info" @click="view_info">
-        <span>View Nutrition</span>
-    </a>
+    <div v-else-if="view_nutrition_mode == true">
+        <h1 class="title">View Nutrition Search</h1>
+        <a class="button" @click="main_page">
+            <span class="icon"><i class="fa fa-fw fa-arrow-left"></i></span>
+            <span>Back</span>
+        </a>
+    </div>
+    
+    <div v-else-if="main_page_mode == true">
+        <h1 class="title">Plate</h1> 
 
-    <h1 class="title"><br>Total</h1> 
-    
-    <table class="table is-striped is-fullwidth">
-        <tr>
-            <th></th>
-            <th>Quantity</th>
-            <th>Calories</th>
-            <th></th>
-            <th></th>
-        </tr>
-        
-        <!-- placeholder -- use app.data.total -->
-        [[for row in total_rows:]]
-        <tr>
-            <td></td>
-            <td>[[=row.quantity]]</td>
-            <td>[[=row.calories]]</td>
-            <td></td>
-            <td></td>
-        </tr>
-        [[pass]]
-    </table>
-    
+        <table class="table is-striped is-fullwidth">
+            <tr>
+                <th>Food Item</th>
+                <th>Quantity</th>
+                <th>Calories</th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            <!-- placeholder -- use app.data.plate -->
+            [[for row in plate_rows:]]
+            <tr>
+                <td>[[=row.food_name]]</td>
+                <td>[[=row.quantity]]</td>
+                <td>[[=row.calories]]</td>
+                <td>
+                    <a class="button" @click="edit_entry(row)">
+                        <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
+                        <span>Edit</span>
+                    </a>
+                </td>
+                <td>
+                    <a class="button is-danger" @click="remove_entry(row)">
+                        <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
+                    </a>
+                </td>
+            </tr>
+            [[pass]]
+        </table>
+
+        <a class="button is-primary" @click="add_entry">
+            <span>Add Food</span>
+        </a>
+        <a class="button is-info" @click="view_info">
+            <span>View Nutrition</span>
+        </a>
+
+        <h1 class="title"><br>Total</h1> 
+
+        <table class="table is-striped is-fullwidth">
+            <tr>
+                <th></th>
+                <th>Quantity</th>
+                <th>Calories</th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            <!-- placeholder -- use app.data.total -->
+            [[for row in total_rows:]]
+            <tr>
+                <td></td>
+                <td>[[=row.quantity]]</td>
+                <td>[[=row.calories]]</td>
+                <td></td>
+                <td></td>
+            </tr>
+            [[pass]]
+        </table>
+    </div>
 </div>
 
 [[block page_scripts]]
