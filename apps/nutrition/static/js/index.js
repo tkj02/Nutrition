@@ -32,35 +32,36 @@ let init = (app) => {
         console.log('in remove');
     }
     
-    app.main_page = function(){
+    app.main_page_button = function(){
         app.data.main_page_mode = true;
         app.data.add_food_mode = false;
         app.data.view_nutrition_mode = false;
     }
     
-    app.add_entry = function(){
-        //complete
-        console.log('in add');
+    app.add_entry_button = function(){
         app.data.main_page_mode = false;
         app.data.add_food_mode = true;
         app.data.view_nutrition_mode = false;
     }
     
-    app.view_info = function(){
-        //complete
-        console.log('in view info');
+    app.view_info_button = function(){
         app.data.main_page_mode = false;
         app.data.add_food_mode = false;
         app.data.view_nutrition_mode = true;
+    }
+    
+    app.add_entry = function(){
+        //complete
     }
 
     // This contains all the methods.
     app.methods = {
         edit_entry: app.edit_entry,
         remove_entry: app.remove_entry,
-        main_page: app.main_page,
+        main_page_button: app.main_page_button,
+        add_entry_button: app.add_entry_button,
+        view_info_button: app.view_info_button,
         add_entry: app.add_entry,
-        view_info: app.view_info
     };
 
     // This creates the Vue instance.

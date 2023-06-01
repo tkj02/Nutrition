@@ -9,16 +9,22 @@
 <div class="section" id="vue-target" v-cloak>
     
     <div v-if="add_food_mode == true">
-        <h1 class="title">Add Food Form</h1> 
-        <a class="button" @click="main_page">
-            <span class="icon"><i class="fa fa-fw fa-arrow-left"></i></span>
-            <span>Back</span>
+        <h1 class="title">Add Food Form</h1>
+        <a class="button is-success" @click="add_entry">
+            <span class="icon"><i class="fa fa-fw fa-check"></i></span>
+            <span>Submit</span>
+        </a>
+        
+        <a class="button is-danger" @click="main_page_button">
+            <span class="icon"><i class="fa fa-fw fa-times"></i></span>
+            <span>Cancel</span>
         </a>
     </div>
     
     <div v-else-if="view_nutrition_mode == true">
         <h1 class="title">View Nutrition Search</h1>
-        <a class="button" @click="main_page">
+        
+        <a class="button is-warning" @click="main_page_button">
             <span class="icon"><i class="fa fa-fw fa-arrow-left"></i></span>
             <span>Back</span>
         </a>
@@ -57,10 +63,10 @@
             [[pass]]
         </table>
 
-        <a class="button is-primary" @click="add_entry">
+        <a class="button is-primary" @click="add_entry_button">
             <span>Add Food</span>
         </a>
-        <a class="button is-info" @click="view_info">
+        <a class="button is-info" @click="view_info_button">
             <span>View Nutrition</span>
         </a>
 
