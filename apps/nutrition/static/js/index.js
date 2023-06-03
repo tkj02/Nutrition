@@ -12,9 +12,11 @@ let init = (app) => {
         total: [],
         main_page_mode: true,
         add_food_mode: false,
+        edit_food_mode: false,
         view_nutrition_mode: false,
         food_name: "",
-        quantity: ""
+        quantity: "",
+        edit_id: ""
     };    
 
     app.enumerate = (a) => {
@@ -24,15 +26,19 @@ let init = (app) => {
         return a;
     };
     
-    app.edit_entry = function(row){
-        //complete
+    app.edit_entry = function(food_name, quantity, edit_entry){
         console.log('in edit entry');
+        axios.post("../edit_entry", {food: food_name, quantity: quantity, edit_entry: edit_entry}).then(function(response){
+            app.data.plate = response.data.plate_rows;
+        })
+        
+        // Redirects to main page
+        app.main_page_button();
     }
     
     app.remove_entry = function(entry_id){
         console.log('in remove');
         axios.post("../remove_entry", {entry_id: entry_id}).then(function(response){
-            console.log('removing plate entry was successful');
             app.data.plate = response.data.plate_rows;
         })
     }
@@ -40,23 +46,34 @@ let init = (app) => {
     app.main_page_button = function(){
         app.data.main_page_mode = true;
         app.data.add_food_mode = false;
+        app.data.edit_food_mode = false;
         app.data.view_nutrition_mode = false;
     }
     
     app.add_entry_button = function(){
         app.data.main_page_mode = false;
         app.data.add_food_mode = true;
+        app.data.edit_food_mode = false;
         app.data.view_nutrition_mode = false;
+    }
+    
+    app.edit_entry_button = function(entry_id){
+        app.data.main_page_mode = false;
+        app.data.add_food_mode = false;
+        app.data.edit_food_mode = true;
+        app.data.view_nutrition_mode = false;
+        
+        app.data.edit_id = entry_id;
     }
     
     app.view_info_button = function(){
         app.data.main_page_mode = false;
         app.data.add_food_mode = false;
+        app.data.edit_food_mode = false;
         app.data.view_nutrition_mode = true;
     }
     
     app.add_entry = function(food_name, quantity){
-        //complete
         //convert quantity into an int before calculating for total table
         console.log(food_name, quantity);
         console.log(app.data.food_name, app.data.quantity);
@@ -79,6 +96,7 @@ let init = (app) => {
         remove_entry: app.remove_entry,
         main_page_button: app.main_page_button,
         add_entry_button: app.add_entry_button,
+        edit_entry_button: app.edit_entry_button,
         view_info_button: app.view_info_button,
         add_entry: app.add_entry,
         get_nutritional_info: app.get_nutritional_info
