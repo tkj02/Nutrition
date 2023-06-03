@@ -63,25 +63,25 @@
                 <th></th>
             </tr>
 
-            <!-- placeholder -- use app.data.plate -->
-            [[for row in plate_rows:]]
-            <tr>
-                <td>[[=row.food_name]]</td>
-                <td>[[=row.quantity]]</td>
-                <td>[[=row.calories]]</td>
-                <td>
-                    <a class="button" @click="edit_entry(row)">
-                        <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
-                        <span>Edit</span>
-                    </a>
-                </td>
-                <td>
-                    <a class="button is-danger" @click="remove_entry(row)">
-                        <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
-                    </a>
-                </td>
-            </tr>
-            [[pass]]
+            <!-- placeholder -- use app.data.plate-->
+            <template v-for="item in plate">
+                <tr>
+                    <td>{{item.food_name}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.calories}}</td>
+                    <td>
+                        <a class="button" @click="edit_entry(item)">
+                            <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
+                            <span>Edit</span>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="button is-danger" @click="remove_entry(item)">
+                            <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
+                        </a>
+                    </td>
+                </tr>
+            </template>
         </table>
 
         <a class="button is-primary" @click="add_entry_button">
@@ -102,16 +102,15 @@
                 <th></th>
             </tr>
 
-            <!-- placeholder -- use app.data.total -->
-            [[for row in total_rows:]]
-            <tr>
-                <td></td>
-                <td>[[=row.quantity]]</td>
-                <td>[[=row.calories]]</td>
-                <td></td>
-                <td></td>
-            </tr>
-            [[pass]]
+            <template v-for="item in total">
+                <tr>
+                    <td></td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.calories}}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </template>
         </table>
     </div>
 </div>
@@ -120,6 +119,7 @@
 <script>
     let edit_entry_url = "[[=XML(edit_entry_url)]]";
     let remove_entry_url = "[[=XML(remove_entry_url)]]";
+    let get_plate_url = "[[=XML(get_plate_url)]]";
     let add_food_url = "[[=XML(add_food_url)]]";
     let view_info_url = "[[=XML(view_info_url)]]";
 </script>

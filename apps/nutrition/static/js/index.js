@@ -26,7 +26,7 @@ let init = (app) => {
     
     app.edit_entry = function(row){
         //complete
-        console.log('in entry');
+        console.log('in edit entry');
     }
     
     app.remove_entry = function(row){
@@ -56,6 +56,13 @@ let init = (app) => {
         //complete
         //convert quantity into an int before calculating for total table
         console.log(food_name, quantity);
+        console.log(app.data.food_name, app.data.quantity);
+        
+        axios.post("../add_food", {food: food_name, quantity: quantity}).then(function(response) {
+            app.data.plate = response.data.plate_rows;
+        });
+        
+        // Redirects to main page
         app.main_page_button();
     }
     
@@ -83,6 +90,11 @@ let init = (app) => {
 
     // And this initializes it.
     app.init = () => {
+        
+        // Updates plate with any pre-existing entries
+        axios.get('../get_plate').then(function (response) {
+            app.vue.plate = response.data.rows;
+        });
     };
 
     // Call to the initializer.
