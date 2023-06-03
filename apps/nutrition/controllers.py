@@ -16,10 +16,10 @@ def index():
         #plate_rows=plate_rows, 
         #total_rows=total_rows,
         edit_entry_url = URL('edit_entry', signer=url_signer),
-        remove_entry_url = URL('remove_entry', signer=url_signer),
         get_plate_url = URL('get_plate', signer=url_signer),
         add_food_url = URL('add_food', signer=url_signer),
         view_info_url = URL('view_info', signer=url_signer),
+        remove_entry_url = URL('remove_entry', signer=url_signer),
         url_signer=url_signer
     )
 
@@ -29,11 +29,13 @@ def index():
 def edit_entry():
     return dict()
 
-# Remove a row from plate
-@action('remove_entry', method=["GET", "POST"])
+# Removes an entry from current user's plate
+@action("remove_entry", method=["GET", "POST"])
 @action.uses(db, auth.user)
 def remove_entry():
-    return dict()
+    db(db.plate.id == request.json.get("entry_id")).delete();
+    rows = db(db.plate.created_by == auth.current_user.get('id')).select().as_list()
+    return dict(rows=rows)
 
 # Gets all entries in the plate for current user
 @action("get_plate")
@@ -67,3 +69,6 @@ def add_food():
 @action.uses(db, auth.user)
 def view_info():
     return dict()
+
+
+

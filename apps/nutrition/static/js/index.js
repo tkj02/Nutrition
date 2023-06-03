@@ -29,9 +29,12 @@ let init = (app) => {
         console.log('in edit entry');
     }
     
-    app.remove_entry = function(row){
-        //complete
+    app.remove_entry = function(entry_id){
         console.log('in remove');
+        axios.post("../remove_entry", {entry_id: entry_id}).then(function(response){
+            console.log('removing plate entry was successful');
+            app.data.plate = response.data.plate_rows;
+        })
     }
     
     app.main_page_button = function(){
