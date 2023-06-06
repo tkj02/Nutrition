@@ -16,6 +16,7 @@ def index():
         add_food_url = URL('add_food', signer=url_signer),
         view_info_url = URL('view_info', signer=url_signer),
         remove_entry_url = URL('remove_entry', signer=url_signer),
+        update_total_url = URL('update_total', signer=url_signer),
         url_signer=url_signer
     )
 
@@ -68,6 +69,17 @@ def add_food():
     )
     plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select()
     return dict(plate_rows=plate_rows)
+
+@action('update_total', method=["GET", "POST"])
+@action.uses(db, auth.user)
+def update_total():
+    plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select().as_list()
+    quantity = 0
+    calories = 0
+    for row in plate_rows:
+        quantity += int(row["quantity"])
+        calories += int(row["calories"])
+    return dict(quantity=quantity, calories=calories)
 
 # to be changed -- make new html page?
 @action('view_info', method=["GET", "POST"])

@@ -27,9 +27,14 @@ let init = (app) => {
     };
     
     app.edit_entry = function(food_name, quantity, edit_entry){
-        console.log('in edit entry');
         axios.post("../edit_entry", {food: food_name, quantity: quantity, edit_entry: edit_entry}).then(function(response){
             app.data.plate = response.data.plate_rows;
+            
+            // Updates totals table
+            axios.get("../update_total").then(function(response){
+                var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
+                app.data.total = dict;
+            })
         })
         
         // Redirects to main page
@@ -37,9 +42,14 @@ let init = (app) => {
     }
     
     app.remove_entry = function(entry_id){
-        console.log('in remove');
         axios.post("../remove_entry", {entry_id: entry_id}).then(function(response){
             app.data.plate = response.data.plate_rows;
+            
+            // Updates totals table
+            axios.get("../update_total").then(function(response){
+                var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
+                app.data.total = dict;
+            })
         })
     }
     
@@ -78,8 +88,15 @@ let init = (app) => {
         console.log(food_name, quantity);
         console.log(app.data.food_name, app.data.quantity);
         
+        // Adds food to plate table
         axios.post("../add_food", {food: food_name, quantity: quantity}).then(function(response) {
             app.data.plate = response.data.plate_rows;
+            
+            // Updates totals table
+            axios.get("../update_total").then(function(response){
+                var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
+                app.data.total = dict;
+            })
         });
         
         // Redirects to main page
@@ -116,6 +133,12 @@ let init = (app) => {
         axios.get('../get_plate').then(function (response) {
             app.vue.plate = response.data.rows;
         });
+        
+        // Updates totals table
+        axios.get("../update_total").then(function(response){
+            var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
+            app.data.total = dict;
+        })
     };
 
     // Call to the initializer.

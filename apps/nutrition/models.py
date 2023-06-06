@@ -25,12 +25,4 @@ db.define_table(
     auth.signature
 )
 
-db.define_table(
-    'total',
-    Field('quantity', requires=IS_NOT_EMPTY()),
-    Field('calories', 'integer', requires=IS_NOT_EMPTY()),
-    #other fields for each nutrional category
-    auth.signature
-)
-
 db.commit()

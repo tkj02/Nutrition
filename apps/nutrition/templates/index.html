@@ -126,11 +126,11 @@
                 <th></th>
             </tr>
 
-            <template v-for="item in total">
+            <template>
                 <tr>
                     <td></td>
-                    <td>{{item.quantity}}</td>
-                    <td>{{item.calories}}</td>
+                    <td>{{total["quantity"]}}</td>
+                    <td>{{total["calories"]}}</td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -146,6 +146,7 @@
     let get_plate_url = "[[=XML(get_plate_url)]]";
     let add_food_url = "[[=XML(add_food_url)]]";
     let view_info_url = "[[=XML(view_info_url)]]";
+    let update_total_url = "[[=XML(update_total_url)]]";
 </script>
 <script src="js/index.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
