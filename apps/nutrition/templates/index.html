@@ -80,10 +80,9 @@
 
         <table class="table is-striped is-fullwidth">
             <tr>
-                <th>Food Item</th>
+                <th>Food Name</th>
                 <th>Quantity</th>
                 <th>Calories</th>
-                <th></th>
                 <th></th>
             </tr>
 
@@ -98,8 +97,6 @@
                             <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
                             <span>Edit</span>
                         </a>
-                    </td>
-                    <td>
                         <a class="button is-danger" @click="remove_entry(item.id)">
                             <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
                         </a>
@@ -114,7 +111,9 @@
         <a class="button is-info" @click="view_info_button">
             <span>View Nutrition</span>
         </a>
-
+        <span>
+            <br><br><br>
+        </span>
         <h1 class="title"><br>Total</h1> 
 
         <table class="table is-striped is-fullwidth">
