@@ -16,7 +16,9 @@ let init = (app) => {
         view_nutrition_mode: false,
         food_name: "",
         quantity: "",
-        edit_id: ""
+        edit_id: "",
+        searchResults: [],
+        all_foods: []
     };    
 
     app.enumerate = (a) => {
@@ -90,6 +92,17 @@ let init = (app) => {
         //complete
     }
 
+    app.searchFoods = function() {
+        if (app.data.food_name === "") {
+            app.data.searchResults = []; // Clear search results if search bar is empty
+        } else {
+            // Filter foods based on the description matching the search query
+            app.data.searchResults = app.data.all_foods.SurveyFoods.filter(function(food) {
+                return food.description.toLowerCase().includes(app.data.food_name.toLowerCase());
+            });
+        }
+    }
+
     // This contains all the methods.
     app.methods = {
         edit_entry: app.edit_entry,
@@ -99,7 +112,8 @@ let init = (app) => {
         edit_entry_button: app.edit_entry_button,
         view_info_button: app.view_info_button,
         add_entry: app.add_entry,
-        get_nutritional_info: app.get_nutritional_info
+        get_nutritional_info: app.get_nutritional_info,
+        searchFoods: app.searchFoods
     };
 
     // This creates the Vue instance.
@@ -115,6 +129,11 @@ let init = (app) => {
         // Updates plate with any pre-existing entries
         axios.get('../get_plate').then(function (response) {
             app.vue.plate = response.data.rows;
+        });
+
+        axios.get('../get_food_data').then(function (response) {
+            console.log(response.data.SurveyFoods[0].description);
+            app.data.all_foods = response.data;
         });
     };
 

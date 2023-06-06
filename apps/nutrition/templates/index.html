@@ -13,9 +13,17 @@
         
         <h1 class="title">Food Name</h1>
         <div class="field">
-            <span>search bar -- similar to asgn5 -- implement after all_foods db is filled -- save selection as food_name and pass into add_entry()</span>
+            <input v-model="food_name" class="input" type="text" placeholder="Search for a food item" @input="searchFoods">
+            <button class="button" @click="searchFoods">Search</button>
         </div>
         
+        <div v-if="searchResults.length > 0">
+            <h2>Search Results:</h2>
+            <ul>
+              <li v-for="result in searchResults" :key="result.id">{{ result.description }}</li>
+            </ul>
+        </div>
+
         <h1 class="title">Quantity</h1>
         <div class="field">
             <textarea v-model="quantity" class="textarea" placeholder="Enter serving size as whole number" rows="2"></textarea>
@@ -56,7 +64,7 @@
         
         <h1 class="title">Food Name</h1>
         <div class="field">
-            <span>search bar -- similar to asgn5 -- implement after all_foods db is filled -- save selection as food_name and pass into add_entry()</span>
+            <input v-model="food_name" class="input" type="text" placeholder="Search for a food item">
         </div>
         
         <h1 class="title">Quantity</h1>

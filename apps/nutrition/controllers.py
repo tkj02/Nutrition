@@ -4,19 +4,28 @@ from .common import db, session, T, cache, auth, logger, authenticated, unauthen
 from py4web.utils.url_signer import URLSigner
 from .models import get_username
 from py4web.utils.form import Form, FormStyleBulma
+from .settings import APP_FOLDER
+import json, os
 
 url_signer = URLSigner(session)
 
 @action('index')
 @action.uses('index.html', db, auth.user, url_signer)
 def index():
+    
+    filename = os.path.join(APP_FOLDER, "data", "FoodData.json")
+    # Load the JSON data from the file
+    with open(filename, 'r') as file:
+        json_data = json.load(file)
+    
     return dict(
         edit_entry_url = URL('edit_entry', signer=url_signer),
         get_plate_url = URL('get_plate', signer=url_signer),
         add_food_url = URL('add_food', signer=url_signer),
         view_info_url = URL('view_info', signer=url_signer),
         remove_entry_url = URL('remove_entry', signer=url_signer),
-        url_signer=url_signer
+        url_signer=url_signer,
+        json_data=json_data
     )
 
 # Edit a row in plate
@@ -35,6 +44,14 @@ def edit_entry():
     )
     plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select()
     return dict(plate_rows=plate_rows)
+
+@action('get_food_data')
+@action.uses(auth.user)
+def get_food_data():
+    filename = os.path.join(APP_FOLDER, "data", "FoodData.json")
+    with open(filename, 'r') as file:
+        json_data = json.load(file)
+    return json_data
 
 # Removes an entry from current user's plate
 @action("remove_entry", method=["GET", "POST"])
