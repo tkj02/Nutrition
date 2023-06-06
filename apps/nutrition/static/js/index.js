@@ -93,7 +93,7 @@ let init = (app) => {
     }
     
     app.add_entry = function(food_name, quantity){
-        
+        console.log(quantity);
         // Validates quantity input
         if (quantity%1 != 0 || quantity < 0){
             alert("Quantity is not valid.\nReturning to main page.")
@@ -102,14 +102,14 @@ let init = (app) => {
         else{
         
             // Adds food to plate table
-            axios.post("../add_food", {food: food_name, quantity: quantity}).then(function(response) {
+            axios.post("../add_food", {food_name: food_name, quantity: quantity}).then(function(response) {
                 app.data.plate = response.data.plate_rows;
 
-                // Updates totals table
-                axios.get("../update_total").then(function(response){
-                    var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
-                    app.data.total = dict;
-                })
+            // Updates totals table
+            axios.get("../update_total").then(function(response){
+                var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
+                app.data.total = dict;
+            });
             });
         }
         
@@ -132,6 +132,11 @@ let init = (app) => {
         }
     }
 
+    app.selectFood = function(food) {
+        console.log("HI");
+        app.data.food_name = food.description;
+    }      
+
     // This contains all the methods.
     app.methods = {
         edit_entry: app.edit_entry,
@@ -142,7 +147,11 @@ let init = (app) => {
         view_info_button: app.view_info_button,
         add_entry: app.add_entry,
         get_nutritional_info: app.get_nutritional_info,
-        searchFoods: app.searchFoods
+        searchFoods: app.searchFoods,
+        selectFood: function(food) {
+            console.log("HI");
+            this.food_name = food.description;
+        }
     };
 
     // This creates the Vue instance.
@@ -161,7 +170,6 @@ let init = (app) => {
         });
 
         axios.get('../get_food_data').then(function (response) {
-            console.log(response.data.SurveyFoods[0].description);
             app.data.all_foods = response.data;
         });
         

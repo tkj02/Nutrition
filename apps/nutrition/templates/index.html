@@ -20,8 +20,10 @@
         <div v-if="searchResults.length > 0">
             <h2>Search Results:</h2>
             <ul>
-              <li v-for="result in searchResults" :key="result.id">{{ result.description }}</li>
-            </ul>
+                <li v-for="result in searchResults" :key="result.id">
+                  <a href="javascript:void(0)" @click="selectFood(result)">{{ result.description }}</a>
+                </li>
+            </ul>                          
         </div>
 
         <h1 class="title">Quantity</h1>
@@ -97,7 +99,7 @@
             <!-- placeholder -- use app.data.plate-->
             <template v-for="item in plate">
                 <tr>
-                    <td>{{item.food_name}}</td>
+                    <td>{{item.food_name || food_name}}</td>
                     <td>{{item.quantity}}</td>
                     <td>{{item.calories}}</td>
                     <td>
@@ -155,7 +157,8 @@
     let view_info_url = "[[=XML(view_info_url)]]";
     let update_total_url = "[[=XML(update_total_url)]]";
 </script>
-<script src="js/index.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+<script src="js/index.js"></script>
+
 [[end]]
