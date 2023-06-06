@@ -29,19 +29,36 @@ let init = (app) => {
     };
     
     app.edit_entry = function(food_name, quantity, edit_entry){
-        console.log('in edit entry');
-        axios.post("../edit_entry", {food: food_name, quantity: quantity, edit_entry: edit_entry}).then(function(response){
-            app.data.plate = response.data.plate_rows;
-        })
+        // Validates quantity input
+        if (quantity%1 != 0 || quantity < 0){
+            alert("Quantity is not valid.\nReturning to main page.")
+            app.data.quantity = "";
+        }
+        else{
+            axios.post("../edit_entry", {food: food_name, quantity: quantity, edit_entry: edit_entry}).then(function(response){
+                app.data.plate = response.data.plate_rows;
+
+                // Updates totals table
+                axios.get("../update_total").then(function(response){
+                    var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
+                    app.data.total = dict;
+                })
+            })
+        }
         
         // Redirects to main page
         app.main_page_button();
     }
     
     app.remove_entry = function(entry_id){
-        console.log('in remove');
         axios.post("../remove_entry", {entry_id: entry_id}).then(function(response){
             app.data.plate = response.data.plate_rows;
+            
+            // Updates totals table
+            axios.get("../update_total").then(function(response){
+                var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
+                app.data.total = dict;
+            })
         })
     }
     
@@ -76,13 +93,25 @@ let init = (app) => {
     }
     
     app.add_entry = function(food_name, quantity){
-        //convert quantity into an int before calculating for total table
-        console.log(food_name, quantity);
-        console.log(app.data.food_name, app.data.quantity);
         
-        axios.post("../add_food", {food: food_name, quantity: quantity}).then(function(response) {
-            app.data.plate = response.data.plate_rows;
-        });
+        // Validates quantity input
+        if (quantity%1 != 0 || quantity < 0){
+            alert("Quantity is not valid.\nReturning to main page.")
+            app.data.quantity = "";
+        }
+        else{
+        
+            // Adds food to plate table
+            axios.post("../add_food", {food: food_name, quantity: quantity}).then(function(response) {
+                app.data.plate = response.data.plate_rows;
+
+                // Updates totals table
+                axios.get("../update_total").then(function(response){
+                    var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
+                    app.data.total = dict;
+                })
+            });
+        }
         
         // Redirects to main page
         app.main_page_button();
@@ -135,6 +164,12 @@ let init = (app) => {
             console.log(response.data.SurveyFoods[0].description);
             app.data.all_foods = response.data;
         });
+        
+        // Updates totals table
+        axios.get("../update_total").then(function(response){
+            var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
+            app.data.total = dict;
+        })
     };
 
     // Call to the initializer.
