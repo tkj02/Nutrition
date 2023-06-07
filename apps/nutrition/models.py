@@ -12,7 +12,7 @@ db.define_table(
     Field('food_name', requires=IS_NOT_EMPTY()),
     Field('quantity', requires=IS_NOT_EMPTY()),
     Field('calories', 'integer', requires=IS_NOT_EMPTY()),
-    #other fields for each nutrional category
+    # other fields for each nutritional category
     auth.signature
 )
 
@@ -21,7 +21,7 @@ db.define_table(
     Field('food_name', requires=IS_NOT_EMPTY()),
     Field('quantity', requires=IS_NOT_EMPTY()),
     Field('calories', 'integer', requires=IS_NOT_EMPTY()),
-    #other fields for each nutrional category
+    # other fields for each nutritional category
     auth.signature
 )
 

@@ -50,7 +50,7 @@
             <span>search bar -- similar to asgn5 -- implement after all_foods db is filled -- save selection as food_name to pass into get_nutritional_info()</span>
         </div>
         
-        <h1 class="title">Nutrtional Info</h1>
+        <h1 class="title">Nutritional Info</h1>
         <div class="field">
             <span>display table -- call get_nutritional_info() with food_name, display info in table</span>
         </div>
@@ -99,9 +99,9 @@
             <!-- placeholder -- use app.data.plate-->
             <template v-for="item in plate">
                 <tr>
-                    <td>{{item.food_name || food_name}}</td>
-                    <td>{{item.quantity}}</td>
-                    <td>{{item.calories}}</td>
+                    <td>{{ item.food_name || food_name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.calories }}</td>
                     <td>
                         <a class="button" @click="edit_entry_button(item.id)">
                             <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
@@ -138,8 +138,8 @@
             <template>
                 <tr>
                     <td></td>
-                    <td>{{total["quantity"]}}</td>
-                    <td>{{total["calories"]}}</td>
+                    <td>{{ total["quantity"] }}</td>
+                    <td>{{ total["calories"] }}</td>
                     <td></td>
                     <td></td>
                 </tr>

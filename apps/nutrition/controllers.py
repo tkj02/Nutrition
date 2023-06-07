@@ -74,17 +74,21 @@ def get_plate():
 def add_food():
     food_name = request.json.get("food_name")
     quantity = request.json.get("quantity")
+    calories = 10  # Change to be proportional to actual calories with respect to quantity
     
-    # Change to be proportional to actual calories with respect to quantity
-    calories = 10
+    try:
+        db.plate.insert(
+            #food_name=food_name,
+            quantity=quantity,
+            calories=calories
+        )
+        print("Data inserted successfully into the plate table.")
+    except Exception as e:
+        print(f"Error inserting row into plate table: {e}")
     
-    db.plate.insert(
-        food_name=food_name,
-        quantity=quantity,
-        calories=calories
-    )
-    plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select()
+    plate_rows = db(db.plate).select().as_list()
     return dict(plate_rows=plate_rows)
+
 
 @action('update_total', method=["GET", "POST"])
 @action.uses(db, auth.user)
