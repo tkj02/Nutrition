@@ -16,7 +16,15 @@ let init = (app) => {
         view_nutrition_mode: false,
         food_name: "",
         quantity: "",
+        proteins: "",
+        lipid_fat: "",
+        carbs: "",
         calories: "",
+        sugars: "",
+        fiber: "",
+        calcium: "",
+        iron: "",
+        sodium: "",
         edit_id: "",
         searchResults: [],
         all_foods: []
@@ -29,8 +37,6 @@ let init = (app) => {
         return a;
     };
     
-    
-
     // This contains all the methods.
     app.methods = {
         main_page_button: function(){
@@ -100,7 +106,7 @@ let init = (app) => {
             });
         },
         
-        add_entry: function(food_name, quantity, calories) {
+        add_entry: function(food_name, quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium) {
             // Validates quantity input
             if (quantity % 1 != 0 || quantity < 0) {
                 alert("Quantity is not valid.\nReturning to main page.")
@@ -156,7 +162,17 @@ let init = (app) => {
         selectFood: function(food) {
             console.log(food.description);
             app.data.food_name = food.description;
+            
+            app.data.proteins = food.foodNutrients[0].amount; // grams
+            app.data.lipid_fat = food.foodNutrients[1].amount; // grams
+            app.data.carbs = food.foodNutrients[2].amount; // grams
             app.data.calories = food.foodNutrients[3].amount;
+            app.data.sugars = food.foodNutrients[8].amount; // grams
+            app.data.fiber = food.foodNutrients[9].amount; // grams
+            app.data.calcium = food.foodNutrients[10].amount; // mg
+            app.data.iron = food.foodNutrients[11].amount; // mg
+            app.data.sodium = food.foodNutrients[15].amount; // mg
+            
             //console.log(food.foodNutrients[3].amount, food.foodNutrients[3].nutrient.unitName);
         },
     };
