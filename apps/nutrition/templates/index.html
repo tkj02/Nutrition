@@ -88,11 +88,19 @@
     <div v-else-if="main_page_mode == true">
         <h1 class="title">Plate</h1> 
 
-        <table class="table is-striped is-fullwidth">
+        <table class="table is-striped is-fullwidth has-text-centered">
             <tr>
                 <th>Food Name</th>
-                <th>Quantity</th>
-                <th>Calories</th>
+                <th>Quantity (servings)</th>
+                <th>Calories (kcal)</th>
+                <th>Protein (g)</th>
+                <th>Fat (g)</th>
+                <th>Carbohydrate (g)</th>
+                <th>Sugar (g)</th>
+                <th>Fiber (g)</th>
+                <th>Calcium (mg)</th>
+                <th>Iron (mg)</th>
+                <th>Sodium (mg)</th>
                 <th></th>
             </tr>
 
@@ -102,6 +110,14 @@
                     <td>{{ item.food_name }}</td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ item.calories }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>
                         <a class="button" @click="edit_entry_button(item.id)">
                             <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
@@ -126,12 +142,19 @@
         </span>
         <h1 class="title"><br>Total</h1> 
 
-        <table class="table is-striped is-fullwidth">
+        <table class="table is-striped is-fullwidth has-text-centered">
             <tr>
                 <th></th>
-                <th>Quantity</th>
-                <th>Calories</th>
-                <th></th>
+                <th>Quantity (servings)</th>
+                <th>Calories (kcal)</th>
+                <th>Protein (g)</th>
+                <th>Fat (g)</th>
+                <th>Carbohydrate (g)</th>
+                <th>Sugar (g)</th>
+                <th>Fiber (g)</th>
+                <th>Calcium (mg)</th>
+                <th>Iron (mg)</th>
+                <th>Sodium (mg)</th>
                 <th></th>
             </tr>
 
@@ -140,6 +163,13 @@
                     <td></td>
                     <td>{{ total["quantity"] }}</td>
                     <td>{{ total["calories"] }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
