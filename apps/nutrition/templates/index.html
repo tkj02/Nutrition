@@ -31,7 +31,8 @@
             <textarea v-model="quantity" class="textarea" placeholder="Enter serving size as whole number" rows="2"></textarea>
         </div>
         
-        <a class="button is-success" @click="add_entry(food_name, quantity, calories)">
+        <a class="button is-success" @click="add_entry(food_name, quantity, calories, proteins, lipid_fat, 
+                                             carbs, sugars, fiber, calcium, iron, sodium)">
             <span class="icon"><i class="fa fa-fw fa-check"></i></span>
             <span>Submit</span>
         </a>
@@ -110,14 +111,14 @@
                     <td>{{ item.food_name }}</td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ item.calories }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ item.proteins }}</td>
+                    <td>{{ item.lipid_fat }}</td>
+                    <td>{{ item.carbs }}</td>
+                    <td>{{ item.sugars }}</td>
+                    <td>{{ item.fiber }}</td>
+                    <td>{{ item.calcium }}</td>
+                    <td>{{ item.iron }}</td>
+                    <td>{{ item.sodium }}</td>
                     <td>
                         <a class="button" @click="edit_entry_button(item.id)">
                             <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
@@ -125,6 +126,7 @@
                         </a>
                         <a class="button is-danger" @click="remove_entry(index)">
                             <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
+                            <span>Delete</span>
                         </a>
                     </td>
                 </tr>

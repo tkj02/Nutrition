@@ -106,7 +106,7 @@ let init = (app) => {
             });
         },
         
-        add_entry: function(food_name, quantity, calories) {
+        add_entry: function(food_name, quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium) {
             // Validates quantity input
             if (quantity % 1 != 0 || quantity < 0) {
                 alert("Quantity is not valid.\nReturning to main page.")
@@ -118,7 +118,15 @@ let init = (app) => {
                         ...response.data.plate_rows[0], // Assuming the API response returns a single entry
                         food_name: food_name,
                         quantity: quantity, // Update the quantity for the new entry
-                        calories: calories// Assign the calories value
+                        calories: calories,
+                        proteins: proteins,
+                        lipid_fat: lipid_fat,
+                        carbs: carbs,
+                        sugars: sugars,
+                        fiber: fiber,
+                        calcium: calcium,
+                        iron: iron,
+                        sodium: sodium
                     };
                     app.data.plate = [...app.data.plate, newEntry];
                     localStorage.setItem('plateData', JSON.stringify(app.data.plate));
@@ -164,9 +172,6 @@ let init = (app) => {
             app.data.calcium = food.foodNutrients[10].amount; // mg
             app.data.iron = food.foodNutrients[11].amount; // mg
             app.data.sodium = food.foodNutrients[15].amount; // mg
-            
-            console.log(app.data.carbs);
-            
             
             //console.log(food.foodNutrients[3].amount, food.foodNutrients[3].nutrient.unitName);
         },
