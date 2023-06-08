@@ -76,12 +76,20 @@ def add_food():
 @action.uses(db, auth.user)
 def update_total():
     plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select().as_list()
-    quantity = 0
-    calories = 0
+    quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     for row in plate_rows:
         quantity += int(row["quantity"])
         calories += int(row["calories"])
-    return dict(quantity=quantity, calories=calories)
+        proteins += int(row["proteins"])
+        lipid_fat += int(row["lipid_fat"])
+        carbs += int(row["carbs"])
+        sugars += int(row["sugars"])
+        fiber += int(row["fiber"])
+        calcium += int(row["calcium"])
+        iron += int(row["iron"])
+        sodium += int(row["sodium"])
+    return dict(quantity=quantity, calories=calories, proteins=proteins, lipid_fat=lipid_fat, carbs=carbs,
+                sugars=sugars, fiber=fiber, calcium=calcium, iron=iron, sodium=sodium)
 
 # to be changed -- make new html page?
 @action('view_info', method=["GET", "POST"])

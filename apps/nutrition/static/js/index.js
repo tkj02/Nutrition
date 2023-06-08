@@ -80,8 +80,18 @@ let init = (app) => {
         
             // Updates totals table
             axios.get("../update_total").then(function(response) {
-                var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
-                app.data.total = dict;
+              var dict = {"quantity": response.data.quantity,
+                          "calories": response.data.calories,
+                          "proteins": response.data.proteins,
+                          "lipid_fat": response.data.lipid_fat,
+                          "proteins": response.data.proteins,
+                          "carbs": response.data.carbs,
+                          "sugars": response.data.sugars,
+                          "fiber": response.data.fiber,
+                          "calcium": response.data.calcium,
+                          "iron": response.data.iron,
+                          "sodium": response.data.sodium};
+              app.data.total = dict;
             });
         },
         
@@ -113,8 +123,18 @@ let init = (app) => {
                     console.log("DATA HERE: ", JSON.stringify(app.data.plate));
                     // Updates totals table
                     axios.get("../update_total").then(function(response) {
-                        var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
-                        app.data.total = dict;
+                      var dict = {"quantity": response.data.quantity,
+                                  "calories": response.data.calories,
+                                  "proteins": response.data.proteins,
+                                  "lipid_fat": response.data.lipid_fat,
+                                  "proteins": response.data.proteins,
+                                  "carbs": response.data.carbs,
+                                  "sugars": response.data.sugars,
+                                  "fiber": response.data.fiber,
+                                  "calcium": response.data.calcium,
+                                  "iron": response.data.iron,
+                                  "sodium": response.data.sodium};
+                      app.data.total = dict;
                     });
                 });
 
@@ -203,7 +223,17 @@ let init = (app) => {
       
         // Updates totals table
         axios.get("../update_total").then(function(response) {
-          var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
+          var dict = {"quantity": response.data.quantity,
+                      "calories": response.data.calories,
+                      "proteins": response.data.proteins,
+                      "lipid_fat": response.data.lipid_fat,
+                      "proteins": response.data.proteins,
+                      "carbs": response.data.carbs,
+                      "sugars": response.data.sugars,
+                      "fiber": response.data.fiber,
+                      "calcium": response.data.calcium,
+                      "iron": response.data.iron,
+                      "sodium": response.data.sodium};
           app.data.total = dict;
         });
       };
