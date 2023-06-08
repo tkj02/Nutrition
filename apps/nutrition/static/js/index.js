@@ -132,11 +132,6 @@ let init = (app) => {
         }
     }
 
-    app.selectFood = function(food) {
-        console.log("HI");
-        app.data.food_name = food.description;
-    }      
-
     // This contains all the methods.
     app.methods = {
         edit_entry: app.edit_entry,
@@ -149,8 +144,8 @@ let init = (app) => {
         get_nutritional_info: app.get_nutritional_info,
         searchFoods: app.searchFoods,
         selectFood: function(food) {
-            console.log("HI");
-            this.food_name = food.description;
+            console.log(food.description);
+            app.data.food_name = food.description;
         }
     };
 

@@ -75,7 +75,7 @@ def add_food():
     food_name = request.json.get("food_name")
     quantity = request.json.get("quantity")
     calories = 10  # Change to be proportional to actual calories with respect to quantity
-    
+    print(get_username(), food_name, quantity, calories)
     try:
         db.plate.insert(
             #food_name=food_name,
