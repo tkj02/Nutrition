@@ -84,17 +84,23 @@ let init = (app) => {
             app.methods.main_page_button();
         },
         
-        remove_entry: function(entry_id){
-            axios.post("../remove_entry", {entry_id: entry_id}).then(function(response){
+        remove_entry: function(entry_id) {
+            axios
+              .post("../remove_entry", { entry_id: entry_id })
+              .then(function(response) {
                 app.data.plate = response.data.plate_rows;
-                
+                localStorage.setItem('plateData', JSON.stringify(app.data.plate));
+          
                 // Updates totals table
-                axios.get("../update_total").then(function(response){
-                    var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
-                    app.data.total = dict;
-                })
-            })
-        },
+                axios.get("../update_total").then(function(response) {
+                  var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
+                  app.data.total = dict;
+                });
+              })
+              .catch(function(error) {
+                console.error(error);
+              });
+          },          
         
         add_entry: function(food_name, quantity) {
             console.log(quantity);
@@ -111,6 +117,7 @@ let init = (app) => {
                     quantity: quantity // Update the quantity for the new entry
                   };
                   app.data.plate = [...app.data.plate, newEntry];
+                  localStorage.setItem('plateData', JSON.stringify(app.vue.plate));
             
                   console.log("DATA HERE: ", JSON.stringify(app.data.plate));
                 // Updates totals table
@@ -155,22 +162,28 @@ let init = (app) => {
 
     // And this initializes it.
     app.init = () => {
-        
-        // Updates plate with any pre-existing entries
-        axios.get('../get_plate').then(function (response) {
+        // Check if data exists in localStorage
+        if (localStorage.getItem('plateData')) {
+          app.vue.plate = JSON.parse(localStorage.getItem('plateData'));
+        } else {
+          // Fetch plate data from the server
+          axios.get('../get_plate').then(function(response) {
             app.vue.plate = response.data.rows;
+          });
+        }
+      
+        // Fetch all foods data from the server
+        axios.get('../get_food_data').then(function(response) {
+          app.data.all_foods = response.data;
         });
-
-        axios.get('../get_food_data').then(function (response) {
-            app.data.all_foods = response.data;
-        });
-        
+      
         // Updates totals table
-        axios.get("../update_total").then(function(response){
-            var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
-            app.data.total = dict;
-        })
-    };
+        axios.get("../update_total").then(function(response) {
+          var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
+          app.data.total = dict;
+        });
+      };
+      
 
     // Call to the initializer.
     app.init();

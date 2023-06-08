@@ -78,7 +78,7 @@ def add_food():
     #print(get_username(), food_name, quantity, calories)
     try:
         db.plate.insert(
-            #food_name=food_name,
+            food_name=food_name,
             quantity=quantity,
             calories=calories
         )
