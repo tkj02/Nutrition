@@ -16,6 +16,7 @@ let init = (app) => {
         view_nutrition_mode: false,
         food_name: "",
         quantity: "",
+        calories: "",
         edit_id: "",
         searchResults: [],
         all_foods: []
@@ -102,7 +103,7 @@ let init = (app) => {
               });
           },          
         
-          add_entry: function(food_name, quantity) {
+          add_entry: function(food_name, quantity, calories) {
             // Validates quantity input
             if (quantity % 1 != 0 || quantity < 0) {
                 alert("Quantity is not valid.\nReturning to main page.")
@@ -114,7 +115,7 @@ let init = (app) => {
                         ...response.data.plate_rows[0], // Assuming the API response returns a single entry
                         food_name: food_name,
                         quantity: quantity, // Update the quantity for the new entry
-                        calories: 10 // Assign the calories value
+                        calories: calories// Assign the calories value
                     };
                     app.data.plate = [...app.data.plate, newEntry];
                     localStorage.setItem('plateData', JSON.stringify(app.data.plate));
@@ -150,6 +151,8 @@ let init = (app) => {
         selectFood: function(food) {
             console.log(food.description);
             app.data.food_name = food.description;
+            app.data.calories = food.foodNutrients[3].amount;
+            //console.log(food.foodNutrients[3].amount, food.foodNutrients[3].nutrient.unitName);
         },
     };
 
