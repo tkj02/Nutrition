@@ -31,7 +31,8 @@
             <textarea v-model="quantity" class="textarea" placeholder="Enter serving size as whole number" rows="2"></textarea>
         </div>
         
-        <a class="button is-success" @click="add_entry(food_name, quantity, calories)">
+        <a class="button is-success" @click="add_entry(food_name, quantity, calories, proteins, lipid_fat, 
+                                             carbs, sugars, fiber, calcium, iron, sodium)">
             <span class="icon"><i class="fa fa-fw fa-check"></i></span>
             <span>Submit</span>
         </a>
@@ -88,11 +89,19 @@
     <div v-else-if="main_page_mode == true">
         <h1 class="title">Plate</h1> 
 
-        <table class="table is-striped is-fullwidth">
+        <table class="table is-striped is-fullwidth has-text-centered">
             <tr>
                 <th>Food Name</th>
-                <th>Quantity</th>
-                <th>Calories</th>
+                <th>Quantity (servings)</th>
+                <th>Calories (kcal)</th>
+                <th>Protein (g)</th>
+                <th>Fat (g)</th>
+                <th>Carbohydrate (g)</th>
+                <th>Sugar (g)</th>
+                <th>Fiber (g)</th>
+                <th>Calcium (mg)</th>
+                <th>Iron (mg)</th>
+                <th>Sodium (mg)</th>
                 <th></th>
             </tr>
 
@@ -102,6 +111,14 @@
                     <td>{{ item.food_name }}</td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ item.calories }}</td>
+                    <td>{{ item.proteins }}</td>
+                    <td>{{ item.lipid_fat }}</td>
+                    <td>{{ item.carbs }}</td>
+                    <td>{{ item.sugars }}</td>
+                    <td>{{ item.fiber }}</td>
+                    <td>{{ item.calcium }}</td>
+                    <td>{{ item.iron }}</td>
+                    <td>{{ item.sodium }}</td>
                     <td>
                         <a class="button" @click="edit_entry_button(item.id)">
                             <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
@@ -109,6 +126,7 @@
                         </a>
                         <a class="button is-danger" @click="remove_entry(index)">
                             <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
+                            <span>Delete</span>
                         </a>
                     </td>
                 </tr>
@@ -126,12 +144,19 @@
         </span>
         <h1 class="title"><br>Total</h1> 
 
-        <table class="table is-striped is-fullwidth">
+        <table class="table is-striped is-fullwidth has-text-centered">
             <tr>
                 <th></th>
-                <th>Quantity</th>
-                <th>Calories</th>
-                <th></th>
+                <th>Quantity (servings)</th>
+                <th>Calories (kcal)</th>
+                <th>Protein (g)</th>
+                <th>Fat (g)</th>
+                <th>Carbohydrate (g)</th>
+                <th>Sugar (g)</th>
+                <th>Fiber (g)</th>
+                <th>Calcium (mg)</th>
+                <th>Iron (mg)</th>
+                <th>Sodium (mg)</th>
                 <th></th>
             </tr>
 
@@ -140,6 +165,13 @@
                     <td></td>
                     <td>{{ total["quantity"] }}</td>
                     <td>{{ total["calories"] }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
