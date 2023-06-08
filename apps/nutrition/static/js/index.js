@@ -102,33 +102,33 @@ let init = (app) => {
               });
           },          
         
-        add_entry: function(food_name, quantity) {
-            console.log(quantity);
+          add_entry: function(food_name, quantity) {
             // Validates quantity input
             if (quantity % 1 != 0 || quantity < 0) {
-              alert("Quantity is not valid.\nReturning to main page.")
-              app.data.quantity = "";
+                alert("Quantity is not valid.\nReturning to main page.")
+                app.data.quantity = "";
             } else {
                 // Adds food to plate table
                 axios.post("../add_food", { food_name: food_name, quantity: quantity }).then(function(response) {
-                  const newEntry = {
-                    ...response.data.plate_rows[0], // Assuming the API response returns a single entry
-                    food_name: food_name,
-                    quantity: quantity // Update the quantity for the new entry
-                  };
-                  app.data.plate = [...app.data.plate, newEntry];
-                  localStorage.setItem('plateData', JSON.stringify(app.vue.plate));
-            
-                  console.log("DATA HERE: ", JSON.stringify(app.data.plate));
-                // Updates totals table
-                axios.get("../update_total").then(function(response) {
-                  var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
-                  app.data.total = dict;
+                    const newEntry = {
+                        ...response.data.plate_rows[0], // Assuming the API response returns a single entry
+                        food_name: food_name,
+                        quantity: quantity, // Update the quantity for the new entry
+                        calories: 10 // Assign the calories value
+                    };
+                    app.data.plate = [...app.data.plate, newEntry];
+                    localStorage.setItem('plateData', JSON.stringify(app.data.plate));
+
+                    console.log("DATA HERE: ", JSON.stringify(app.data.plate));
+                    // Updates totals table
+                    axios.get("../update_total").then(function(response) {
+                        var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
+                        app.data.total = dict;
+                    });
                 });
-                });
+
             }
-            
-            // Redirects to main page
+            // Redirects to the main page
             app.methods.main_page_button();
         },
         
