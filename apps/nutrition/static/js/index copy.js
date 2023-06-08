@@ -32,6 +32,40 @@ let init = (app) => {
 
     // This contains all the methods.
     app.methods = {
+        edit_entry: function(food_name, quantity, edit_entry){
+            // Validates quantity input
+            if (quantity%1 != 0 || quantity < 0){
+                alert("Quantity is not valid.\nReturning to main page.")
+                app.data.quantity = "";
+            }
+            else{
+                axios.post("../edit_entry", {food: food_name, quantity: quantity, edit_entry: edit_entry}).then(function(response){
+                    app.data.plate = response.data.plate_rows;
+    
+                    // Updates totals table
+                    axios.get("../update_total").then(function(response){
+                        var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
+                        app.data.total = dict;
+                    })
+                })
+            }
+            
+            // Redirects to main page
+            app.main_page_button();
+        },
+        
+        remove_entry: function(entry_id){
+            axios.post("../remove_entry", {entry_id: entry_id}).then(function(response){
+                app.data.plate = response.data.plate_rows;
+                
+                // Updates totals table
+                axios.get("../update_total").then(function(response){
+                    var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
+                    app.data.total = dict;
+                })
+            })
+        },
+        
         main_page_button: function(){
             app.data.main_page_mode = true;
             app.data.add_food_mode = false;
@@ -61,40 +95,6 @@ let init = (app) => {
             app.data.edit_food_mode = false;
             app.data.view_nutrition_mode = true;
         },
-
-        edit_entry: function(food_name, quantity, edit_entry){
-            // Validates quantity input
-            if (quantity%1 != 0 || quantity < 0){
-                alert("Quantity is not valid.\nReturning to main page.")
-                app.data.quantity = "";
-            }
-            else{
-                axios.post("../edit_entry", {food: food_name, quantity: quantity, edit_entry: edit_entry}).then(function(response){
-                    app.data.plate = response.data.plate_rows;
-    
-                    // Updates totals table
-                    axios.get("../update_total").then(function(response){
-                        var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
-                        app.data.total = dict;
-                    })
-                })
-            }
-            
-            // Redirects to main page
-            app.methods.main_page_button();
-        },
-        
-        remove_entry: function(entry_id){
-            axios.post("../remove_entry", {entry_id: entry_id}).then(function(response){
-                app.data.plate = response.data.plate_rows;
-                
-                // Updates totals table
-                axios.get("../update_total").then(function(response){
-                    var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
-                    app.data.total = dict;
-                })
-            })
-        },
         
         add_entry: function(food_name, quantity) {
             console.log(quantity);
@@ -103,22 +103,18 @@ let init = (app) => {
               alert("Quantity is not valid.\nReturning to main page.")
               app.data.quantity = "";
             } else {
-                // Adds food to plate table
-                axios.post("../add_food", { food_name: food_name, quantity: quantity }).then(function(response) {
-                  const newEntry = {
-                    ...response.data.plate_rows[0], // Assuming the API response returns a single entry
-                    food_name: food_name,
-                    quantity: quantity // Update the quantity for the new entry
-                  };
-                  app.data.plate = [...app.data.plate, newEntry];
-            
-                  console.log("DATA HERE: ", JSON.stringify(app.data.plate));
-                // Updates totals table
-                axios.get("../update_total").then(function(response) {
-                  var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
-                  app.data.total = dict;
+              // Adds food to plate table
+              axios.post("../add_food", { food_name: food_name, quantity: quantity }).then(function(response) {
+                app.data.plate = response.data.plate_rows.map(function(entry) {
+                  entry.food_name = food_name; // Set food_name on each entry
+                  return entry;
                 });
-                });
+              // Updates totals table
+              axios.get("../update_total").then(function(response) {
+                var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
+                app.data.total = dict;
+              });
+              });
             }
             
             // Redirects to main page
