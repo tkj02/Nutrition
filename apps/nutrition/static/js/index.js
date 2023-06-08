@@ -63,47 +63,44 @@ let init = (app) => {
             app.data.view_nutrition_mode = true;
         },
 
-        edit_entry: function(food_name, quantity, edit_entry){
+        edit_entry: function(food_name, quantity, edit_entry) {
             // Validates quantity input
-            if (quantity%1 != 0 || quantity < 0){
-                alert("Quantity is not valid.\nReturning to main page.")
-                app.data.quantity = "";
-            }
-            else{
-                axios.post("../edit_entry", {food: food_name, quantity: quantity, edit_entry: edit_entry}).then(function(response){
-                    app.data.plate = response.data.plate_rows;
-    
-                    // Updates totals table
-                    axios.get("../update_total").then(function(response){
-                        var dict = {"quantity": response.data.quantity, "calories": response.data.calories};
-                        app.data.total = dict;
-                    })
-                })
-            }
-            
-            // Redirects to main page
-            app.methods.main_page_button();
-        },
-        
-        remove_entry: function(entry_id) {
-            axios
-              .post("../remove_entry", { entry_id: entry_id })
-              .then(function(response) {
-                app.data.plate = response.data.plate_rows;
-                localStorage.setItem('plateData', JSON.stringify(app.data.plate));
+            if (quantity % 1 != 0 || quantity < 0) {
+              alert("Quantity is not valid.\nReturning to main page.")
+              app.vue.quantity = ""; // Update the quantity using app.vue.quantity instead of app.data.quantity
+            } else {
+              axios.post("../edit_entry", { food: food_name, quantity: quantity, edit_entry: edit_entry }).then(function(response) {
+                app.vue.plate = response.data.plate_rows;
           
                 // Updates totals table
                 axios.get("../update_total").then(function(response) {
                   var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
-                  app.data.total = dict;
+                  app.vue.total = dict; // Update the total using app.vue.total instead of app.data.total
                 });
-              })
-              .catch(function(error) {
-                console.error(error);
               });
-          },          
+            }
+          
+            // Redirects to main page
+            app.methods.main_page_button();
+        },
         
-          add_entry: function(food_name, quantity, calories) {
+        remove_entry: function(index) {
+            const entry = app.data.plate[index];
+            const entry_id = entry.id;
+            console.log("Entry ID to be deleted:", entry_id);
+            console.log("Plate entries:", app.data.plate);
+            
+            app.data.plate.splice(index, 1); // Remove the entry from the plate array
+            localStorage.setItem('plateData', JSON.stringify(app.data.plate));
+        
+            // Updates totals table
+            axios.get("../update_total").then(function(response) {
+                var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
+                app.data.total = dict;
+            });
+        },
+        
+        add_entry: function(food_name, quantity, calories) {
             // Validates quantity input
             if (quantity % 1 != 0 || quantity < 0) {
                 alert("Quantity is not valid.\nReturning to main page.")

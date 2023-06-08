@@ -97,7 +97,7 @@
             </tr>
 
             <!-- placeholder -- use app.data.plate-->
-            <template v-for="item in plate">
+            <template v-for="(item, index) in plate">
                 <tr>
                     <td>{{ item.food_name }}</td>
                     <td>{{ item.quantity }}</td>
@@ -107,12 +107,12 @@
                             <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
                             <span>Edit</span>
                         </a>
-                        <a class="button is-danger" @click="remove_entry(item.id)">
+                        <a class="button is-danger" @click="remove_entry(index)">
                             <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
                         </a>
                     </td>
                 </tr>
-            </template>
+            </template>            
         </table>
 
         <a class="button is-primary" @click="add_entry_button">
