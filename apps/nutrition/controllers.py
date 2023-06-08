@@ -19,7 +19,6 @@ def index():
         json_data = json.load(file)
     
     return dict(
-        edit_entry_url = URL('edit_entry', signer=url_signer),
         get_plate_url = URL('get_plate', signer=url_signer),
         add_food_url = URL('add_food', signer=url_signer),
         view_info_url = URL('view_info', signer=url_signer),
@@ -27,23 +26,6 @@ def index():
         update_total_url = URL('update_total', signer=url_signer),
         url_signer=url_signer
     )
-
-# Edit a row in plate
-@action('edit_entry', method=["GET", "POST"])
-@action.uses(db, auth.user)
-def edit_entry():
-    food_name = request.json.get("food_name")
-    quantity = request.json.get("quantity")
-    edit_id = request.json.get("edit_entry")
-    
-    # Change to be proportional to actual calories with respect to quantity
-    calories = 10
-    
-    db(db.plate.id == edit_id).update(
-        quantity=quantity
-    )
-    plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select()
-    return dict(plate_rows=plate_rows)
 
 @action('get_food_data')
 @action.uses(auth.user)

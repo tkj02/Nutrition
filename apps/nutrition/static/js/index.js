@@ -68,27 +68,6 @@ let init = (app) => {
             app.data.edit_food_mode = false;
             app.data.view_nutrition_mode = true;
         },
-
-        edit_entry: function(food_name, quantity, edit_entry) {
-            // Validates quantity input
-            if (quantity % 1 != 0 || quantity < 0) {
-              alert("Quantity is not valid.\nReturning to main page.")
-              app.vue.quantity = ""; // Update the quantity using app.vue.quantity instead of app.data.quantity
-            } else {
-              axios.post("../edit_entry", { food: food_name, quantity: quantity, edit_entry: edit_entry }).then(function(response) {
-                app.vue.plate = response.data.plate_rows;
-          
-                // Updates totals table
-                axios.get("../update_total").then(function(response) {
-                  var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
-                  app.vue.total = dict; // Update the total using app.vue.total instead of app.data.total
-                });
-              });
-            }
-          
-            // Redirects to main page
-            app.methods.main_page_button();
-        },
         
         remove_entry: function(index) {
             const entry = app.data.plate[index];
@@ -143,6 +122,27 @@ let init = (app) => {
             // Redirects to the main page
             app.methods.main_page_button();
         },
+
+        updateQuantity: function(index, newQuantity) {
+            // Validate the new quantity input
+            if (newQuantity % 1 !== 0 || newQuantity < 0) {
+              alert("Quantity is not valid.\nReturning to main page.");
+              return;
+            }
+          
+            // Update the quantity for the specified food entry
+            const entry = app.data.plate[index];
+            entry.quantity = newQuantity;
+            app.data.plate.splice(index, 1, entry);
+            localStorage.setItem('plateData', JSON.stringify(app.data.plate));
+          
+            // Update totals table
+            axios.get("../update_total").then(function(response) {
+              var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
+              app.data.total = dict;
+            });
+        },
+          
         
         get_nutritional_info: function(food_name){
             //complete

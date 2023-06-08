@@ -2,92 +2,68 @@
 
 <style>
 [v-cloak] {
-     display: none;
+    display: none;
 }
 </style>
 
 <div class="section" id="vue-target" v-cloak>
-    
+
     <div v-if="add_food_mode == true">
         <h1 class="title">Add Food</h1>
-        
+
         <h1 class="title">Food Name</h1>
         <div class="field">
             <input v-model="food_name" class="input" type="text" placeholder="Search for a food item" @input="searchFoods">
             <button class="button" @click="searchFoods">Search</button>
         </div>
-        
+
         <div v-if="searchResults.length > 0">
             <h2>Search Results:</h2>
             <ul>
                 <li v-for="result in searchResults" :key="result.id">
-                  <a href="javascript:void(0)" @click="selectFood(result)">{{ result.description }}</a>
+                    <a href="javascript:void(0)" @click="selectFood(result)">{{ result.description }}</a>
                 </li>
-            </ul>                          
+            </ul>
         </div>
 
         <h1 class="title">Quantity</h1>
         <div class="field">
-            <textarea v-model="quantity" class="textarea" placeholder="Enter serving size as whole number" rows="2"></textarea>
+            <textarea v-model="quantity" class="textarea" placeholder="Enter serving size as a whole number" rows="2"></textarea>
         </div>
-        
+
         <a class="button is-success" @click="add_entry(food_name, quantity, calories, proteins, lipid_fat, 
                                              carbs, sugars, fiber, calcium, iron, sodium)">
             <span class="icon"><i class="fa fa-fw fa-check"></i></span>
             <span>Submit</span>
         </a>
-        
+
         <a class="button is-danger" @click="main_page_button">
             <span class="icon"><i class="fa fa-fw fa-times"></i></span>
             <span>Cancel</span>
         </a>
     </div>
-    
+
     <div v-else-if="view_nutrition_mode == true">
         <h1 class="title">View Nutrition</h1>
-        
+
         <h1 class="title">Food Name</h1>
         <div class="field">
-            <span>search bar -- similar to asgn5 -- implement after all_foods db is filled -- save selection as food_name to pass into get_nutritional_info()</span>
+            <span>search bar -- similar to asgn5 -- implement after all_foods db is filled -- save the selection as food_name to pass into get_nutritional_info()</span>
         </div>
-        
+
         <h1 class="title">Nutritional Info</h1>
         <div class="field">
-            <span>display table -- call get_nutritional_info() with food_name, display info in table</span>
+            <span>display table -- call get_nutritional_info() with food_name, display info in the table</span>
         </div>
-        
+
         <a class="button is-warning" @click="main_page_button">
             <span class="icon"><i class="fa fa-fw fa-arrow-left"></i></span>
             <span>Back</span>
         </a>
     </div>
-    
-    <div v-if="edit_food_mode == true">
-        <h1 class="title">Edit Food</h1>
-        
-        <h1 class="title">Food Name</h1>
-        <div class="field">
-            <input v-model="food_name" class="input" type="text" placeholder="Search for a food item">
-        </div>
-        
-        <h1 class="title">Quantity</h1>
-        <div class="field">
-            <textarea v-model="quantity" class="textarea" placeholder="Enter serving size as whole number" rows="2"></textarea>
-        </div>
-        
-        <a class="button is-success" @click="edit_entry(food_name, quantity, edit_id)">
-            <span class="icon"><i class="fa fa-fw fa-check"></i></span>
-            <span>Submit</span>
-        </a>
-        
-        <a class="button is-danger" @click="main_page_button">
-            <span class="icon"><i class="fa fa-fw fa-times"></i></span>
-            <span>Cancel</span>
-        </a>
-    </div>
-    
+
     <div v-else-if="main_page_mode == true">
-        <h1 class="title">Plate</h1> 
+        <h1 class="title">Plate</h1>
 
         <table class="table is-striped is-fullwidth has-text-centered">
             <tr>
@@ -109,7 +85,9 @@
             <template v-for="(item, index) in plate">
                 <tr>
                     <td>{{ item.food_name }}</td>
-                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <input type="text" v-model="item.quantity" @change="updateQuantity(item, $event.target.value)">
+                    </td>
                     <td>{{ item.calories }}</td>
                     <td>{{ item.proteins }}</td>
                     <td>{{ item.lipid_fat }}</td>
@@ -120,17 +98,14 @@
                     <td>{{ item.iron }}</td>
                     <td>{{ item.sodium }}</td>
                     <td>
-                        <a class="button" @click="edit_entry_button(item.id)">
-                            <span class="icon"><i class="fa fa-fw fa-pencil"></i></span>
-                            <span>Edit</span>
-                        </a>
                         <a class="button is-danger" @click="remove_entry(index)">
                             <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
                             <span>Delete</span>
                         </a>
                     </td>
                 </tr>
-            </template>            
+            </template>
+
         </table>
 
         <a class="button is-primary" @click="add_entry_button">
@@ -142,7 +117,7 @@
         <span>
             <br><br><br>
         </span>
-        <h1 class="title"><br>Total</h1> 
+        <h1 class="title"><br>Total</h1>
 
         <table class="table is-striped is-fullwidth has-text-centered">
             <tr>
@@ -182,7 +157,6 @@
 
 [[block page_scripts]]
 <script>
-    let edit_entry_url = "[[=XML(edit_entry_url)]]";
     let remove_entry_url = "[[=XML(remove_entry_url)]]";
     let get_plate_url = "[[=XML(get_plate_url)]]";
     let add_food_url = "[[=XML(add_food_url)]]";
