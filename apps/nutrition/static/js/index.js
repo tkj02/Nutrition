@@ -112,7 +112,7 @@ let init = (app) => {
                         ...response.data.plate_rows[0], // Assuming the API response returns a single entry
                         food_name: food_name,
                         quantity: quantity, // Update the quantity for the new entry
-                        calories: calories// Assign the calories value
+                        calories: String((Number(quantity))*(Number(calories)))// Assign the calories value
                     };
                     app.data.plate = [...app.data.plate, newEntry];
                     localStorage.setItem('plateData', JSON.stringify(app.data.plate));
