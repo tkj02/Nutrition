@@ -194,6 +194,6 @@ def get_public_users():
 @action.uses(db, auth.user)
 def get_public_plate():
     username = request.json.get("username")
-    public_plate = db((db.auth_user.username == username) & (db.public_plates.user_id == db.auth_user.id)).select(
-        db.plates.ALL).as_list()
+    user_id = db(db.auth_user.username == username).select("id")[0]["_extra"]["id"];
+    public_plate = db(db.plates.created_by == user_id).select().as_list()
     return dict(plate=public_plate)
