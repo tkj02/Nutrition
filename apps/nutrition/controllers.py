@@ -24,6 +24,9 @@ def index():
         view_info_url = URL('view_info', signer=url_signer),
         remove_entry_url = URL('remove_entry', signer=url_signer),
         update_total_url = URL('update_total', signer=url_signer),
+        make_plate_public_url = URL('make_plate_public', signer=url_signer),
+        make_plate_private_url = URL('make_plate_private', signer=url_signer),
+        check_privacy_url = URL('check_privacy', signer=url_signer),
         url_signer=url_signer
     )
 
@@ -90,3 +93,27 @@ def update_total():
         sodium += int(plate_rows[row]["sodium"])
     return dict(quantity=quantity, calories=calories, proteins=proteins, lipid_fat=lipid_fat, carbs=carbs,
                 sugars=sugars, fiber=fiber, calcium=calcium, iron=iron, sodium=sodium)
+
+@action('make_plate_public', method=["GET", "POST"])
+@action.uses(db, auth.user)
+def make_plate_public():
+    db.public_plates.insert(user_id = auth.current_user.get('id'))
+    return dict()
+
+@action('make_plate_private', method=["GET", "POST"])
+@action.uses(db, auth.user)
+def make_plate_private():
+    db(db.public_plates.user_id == auth.current_user.get('id')).delete();
+    return dict()
+
+@action('check_privacy', method=["GET", "POST"])
+@action.uses(db, auth.user)
+def check_privacy():
+    status = 0
+    query = db(db.public_plates.user_id == auth.current_user.get('id')).select()
+    
+    # User not in db, meaning they are private
+    if len(query) == 0:
+        status = 1
+        
+    return dict(status=status)

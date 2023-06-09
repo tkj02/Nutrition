@@ -29,7 +29,14 @@ let init = (app) => {
         edit_id: "",
         searchResults: [],
         all_foods: [],
-        privacy_status: true,
+        privacy_status: axios.get('../check_privacy').then(function(response) {
+            if (!response.data.status){
+                app.data.privacy_status = false;
+            }
+            else{
+                app.data.privacy_status = true;
+            }
+        }),
         plates_search_bar: [],
     };    
 
@@ -188,18 +195,21 @@ let init = (app) => {
               app.data.total = dict;
             });
         },
-          
         
         change_privacy: function(){
             app.data.privacy_status = !app.data.privacy_status;
             
             // Set to true -- plate is private
             if (app.data.privacy_status){
-                //remove from public_plates db
+                axios.get('../make_plate_private').then(function(response) {
+                    console.log('user removed from public plates db');
+                });
             }
             // Set to false -- plate is public
             else{
-                // add to public_plates db
+                axios.get('../make_plate_public').then(function(response) {
+                    console.log('user added to public plates db');
+                });
             }
         },
     
@@ -271,8 +281,8 @@ let init = (app) => {
                       "sodium": response.data.sodium};
           app.data.total = dict;
         });
+        
       };
-      
 
     // Call to the initializer.
     app.init();
