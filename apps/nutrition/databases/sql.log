@@ -109,3 +109,20 @@ CREATE TABLE "public_plates"(
 );
 success!
 success!
+timestamp: 2023-06-09T12:40:46.642039
+ALTER TABLE "plate" ADD "proteins" DOUBLE;
+timestamp: 2023-06-09T12:40:46.649342
+ALTER TABLE "plate" ADD "lipid_fat" DOUBLE;
+timestamp: 2023-06-09T12:40:46.655341
+ALTER TABLE "plate" ADD "carbs" DOUBLE;
+timestamp: 2023-06-09T12:40:46.660847
+ALTER TABLE "plate" ADD "sugars" DOUBLE;
+timestamp: 2023-06-09T12:40:46.666848
+ALTER TABLE "plate" ADD "fiber" DOUBLE;
+timestamp: 2023-06-09T12:40:46.673364
+ALTER TABLE "plate" ADD "calcium" DOUBLE;
+timestamp: 2023-06-09T12:40:46.679372
+ALTER TABLE "plate" ADD "iron" DOUBLE;
+timestamp: 2023-06-09T12:40:46.684871
+ALTER TABLE "plate" ADD "sodium" DOUBLE;
+success!
