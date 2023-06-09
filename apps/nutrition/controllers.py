@@ -45,20 +45,8 @@ def get_food_data():
 @action.uses(db, auth.user)
 def remove_food():
     entry_id = request.json.get("entry_id")
-
-    try:
-        entry = db((db.plates.id == entry_id)).select().first()
-        if entry:
-            entry.delete_record()
-            print("Entry deleted successfully from the plate table.")
-            return dict(success=True)
-        else:
-            print("Entry not found in the plate table.")
-    except Exception as e:
-        print(f"Error removing entry from the plate table: {e}")
-
-    return dict(success=False)
-
+    db((db.plates.id == entry_id)).delete()
+    return dict()
 
 # Gets all entries in the plate for current user
 @action("get_plate")
@@ -97,28 +85,8 @@ def add_food():
         sodium=sodium
     )
     
-    '''try:
-        db.plates.insert(
-            #food_name=food_name,
-            quantity=quantity,
-            calories=calories,
-            proteins=proteins,
-            lipid_fat=lipid_fat,
-            carbs=carbs,
-            sugars=sugars,
-            fiber=fiber,
-            calcium=calcium,
-            iron=iron,
-            sodium=sodium
-        )
-        print("Data inserted successfully into the plate table.")
-    except Exception as e:
-        print(f"Error inserting row into plate table: {e}")
-    '''
-    
     plate_rows = db(db.plates.created_by == auth.current_user.get('id')).select().as_list()
     
-    #print("rows", plate_rows)
     return dict(plate_rows=plate_rows)
 
 

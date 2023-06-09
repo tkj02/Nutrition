@@ -103,8 +103,7 @@ let init = (app) => {
             console.log("Entry ID to be deleted:", entry_id);
             console.log("Plate entries:", app.data.plate);
         
-            axios
-                .post("../remove_food", { entry_id: entry_id })
+            axios.post("../remove_food", { entry_id: entry_id })
                 .then(function(response) {
                 // Updates totals table
                 /*axios.post("../update_total", { plate: app.data.plate }).then(function(response) {
