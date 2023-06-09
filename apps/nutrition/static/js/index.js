@@ -79,7 +79,7 @@ let init = (app) => {
             localStorage.setItem('plateData', JSON.stringify(app.data.plate));
         
             // Updates totals table
-            axios.get("../update_total").then(function(response) {
+            axios.post("../update_total", {plate: app.data.plate}).then(function(response) {
               var dict = {"quantity": response.data.quantity,
                           "calories": response.data.calories,
                           "proteins": response.data.proteins,
@@ -122,7 +122,7 @@ let init = (app) => {
 
                     console.log("DATA HERE: ", JSON.stringify(app.data.plate));
                     // Updates totals table
-                    axios.get("../update_total").then(function(response) {
+                    axios.post("../update_total", {plate: app.data.plate}).then(function(response) {
                       var dict = {"quantity": response.data.quantity,
                                   "calories": response.data.calories,
                                   "proteins": response.data.proteins,
@@ -156,11 +156,7 @@ let init = (app) => {
             app.data.plate.splice(index, 1, entry);
             localStorage.setItem('plateData', JSON.stringify(app.data.plate));
           
-            // Update totals table
-            axios.get("../update_total").then(function(response) {
-              var dict = { "quantity": response.data.quantity, "calories": response.data.calories };
-              app.data.total = dict;
-            });
+            
         },
           
         
@@ -222,7 +218,7 @@ let init = (app) => {
         });
       
         // Updates totals table
-        axios.get("../update_total").then(function(response) {
+        axios.post("../update_total", {plate: app.data.plate}).then(function(response) {
           var dict = {"quantity": response.data.quantity,
                       "calories": response.data.calories,
                       "proteins": response.data.proteins,

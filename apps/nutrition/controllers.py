@@ -75,25 +75,18 @@ def add_food():
 @action('update_total', method=["GET", "POST"])
 @action.uses(db, auth.user)
 def update_total():
-    plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select().as_list()
+    plate_rows = request.json.get("plate")
     quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     for row in plate_rows:
-        quantity += int(row["quantity"])
-        calories += int(row["calories"])
-        proteins += int(row["proteins"])
-        lipid_fat += int(row["lipid_fat"])
-        carbs += int(row["carbs"])
-        sugars += int(row["sugars"])
-        fiber += int(row["fiber"])
-        calcium += int(row["calcium"])
-        iron += int(row["iron"])
-        sodium += int(row["sodium"])
+        quantity += int(plate_rows[row]["quantity"])
+        calories += int(plate_rows[row]["calories"])
+        proteins += int(plate_rows[row]["proteins"])
+        lipid_fat += int(plate_rows[row]["lipid_fat"])
+        carbs += int(plate_rows[row]["carbs"])
+        sugars += int(plate_rows[row]["sugars"])
+        fiber += int(plate_rows[row]["fiber"])
+        calcium += int(plate_rows[row]["calcium"])
+        iron += int(plate_rows[row]["iron"])
+        sodium += int(plate_rows[row]["sodium"])
     return dict(quantity=quantity, calories=calories, proteins=proteins, lipid_fat=lipid_fat, carbs=carbs,
                 sugars=sugars, fiber=fiber, calcium=calcium, iron=iron, sodium=sodium)
-
-# to be changed -- make new html page?
-@action('view_info', method=["GET", "POST"])
-@action.uses(db, auth.user)
-def view_info():
-    return dict()
-
