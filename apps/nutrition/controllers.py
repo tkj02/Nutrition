@@ -117,15 +117,15 @@ def update_total():
         if isinstance(row, dict):
             # Calculation logic using row["quantity"], row["calories"], etc.
             quantity += float(row["quantity"])
-            calories += float(row["calories"]) * quantity
-            proteins += float(row["proteins"]) * quantity
-            lipid_fat += float(row["lipid_fat"]) * quantity
-            carbs += float(row["carbs"]) * quantity
-            sugars += float(row["sugars"]) * quantity
-            fiber += float(row["fiber"]) * quantity
-            calcium += float(row["calcium"]) * quantity
-            iron += float(row["iron"]) * quantity
-            sodium += float(row["sodium"]) * quantity
+            calories += float(row["calories"])
+            proteins += float(row["proteins"])
+            lipid_fat += float(row["lipid_fat"])
+            carbs += float(row["carbs"])
+            sugars += float(row["sugars"])
+            fiber += float(row["fiber"])
+            calcium += float(row["calcium"])
+            iron += float(row["iron"])
+            sodium += float(row["sodium"])
         else:
             # Handle non-dictionary row elements in the list
             print("Non-dictionary element found in the plate_rows list.")
