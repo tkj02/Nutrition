@@ -81,19 +81,30 @@ def add_food():
 def update_total():
     plate_rows = request.json.get("plate")
     quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
     for row in plate_rows:
-        quantity += int(plate_rows[row]["quantity"])
-        calories += int(plate_rows[row]["calories"])
-        proteins += int(plate_rows[row]["proteins"])
-        lipid_fat += int(plate_rows[row]["lipid_fat"])
-        carbs += int(plate_rows[row]["carbs"])
-        sugars += int(plate_rows[row]["sugars"])
-        fiber += int(plate_rows[row]["fiber"])
-        calcium += int(plate_rows[row]["calcium"])
-        iron += int(plate_rows[row]["iron"])
-        sodium += int(plate_rows[row]["sodium"])
+        if isinstance(row, dict):
+            if "quantity" in row:
+                quantity += int(row["quantity"])
+                calories += int(row["calories"])
+                proteins += float(row["proteins"])
+                lipid_fat += float(row["lipid_fat"])
+                carbs += float(row["carbs"])
+                sugars += float(row["sugars"])
+                fiber += float(row["fiber"])
+                calcium += float(row["calcium"])
+                iron += float(row["iron"])
+                sodium += float(row["sodium"])
+            else:
+                # Handle missing "quantity" key in the row dictionary
+                print("Missing 'quantity' key in a row dictionary.")
+        else:
+            # Handle non-dictionary row elements in the list
+            print("Non-dictionary element found in the plate_rows list.")
+
     return dict(quantity=quantity, calories=calories, proteins=proteins, lipid_fat=lipid_fat, carbs=carbs,
                 sugars=sugars, fiber=fiber, calcium=calcium, iron=iron, sodium=sodium)
+
 
 @action('make_plate_public', method=["GET", "POST"])
 @action.uses(db, auth.user)
