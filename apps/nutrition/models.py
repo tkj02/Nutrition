@@ -9,7 +9,7 @@ def get_username():
 
 db.define_table(
     'plate',
-    Field('foodName', 'string', requires=IS_NOT_EMPTY()),
+    Field('food_name', 'string', requires=IS_NOT_EMPTY()),
     Field('quantity', requires=IS_NOT_EMPTY()),
     Field('calories', 'float', requires=IS_NOT_EMPTY()),
     Field('proteins', 'float', requires=IS_NOT_EMPTY()),

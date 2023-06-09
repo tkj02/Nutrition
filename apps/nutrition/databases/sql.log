@@ -126,6 +126,3 @@ ALTER TABLE "plate" ADD "iron" DOUBLE;
 timestamp: 2023-06-09T12:40:46.684871
 ALTER TABLE "plate" ADD "sodium" DOUBLE;
 success!
-timestamp: 2023-06-09T15:21:30.576293
-ALTER TABLE "plate" ADD "foodname" CHAR(512);
-success!
