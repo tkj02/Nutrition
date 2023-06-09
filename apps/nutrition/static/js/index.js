@@ -195,17 +195,13 @@ let init = (app) => {
 
         updateQuantity: function(index, newQuantity) {
             // Validate the new quantity input
-            if (newQuantity < 0) {
-                alert("Quantity is not valid.\n");
-                const entry = app.data.plate[index];
-                if (entry) {
-                    entry.quantity = entry.originalQuantity;
+            if (newQuantity <= 0) {
+                if (newQuantity < 0) {
+                    alert("Quantity is not valid.\n");
                 }
-                return;
-            }
-            
-            if (newQuantity == 0) {
-                alert("Use delete function to remove items.\n");
+                else {
+                    alert("Use delete function to remove items.\n");
+                }
                 const entry = app.data.plate[index];
                 if (entry) {
                     entry.quantity = entry.originalQuantity;

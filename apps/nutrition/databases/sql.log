@@ -126,3 +126,24 @@ ALTER TABLE "plate" ADD "iron" DOUBLE;
 timestamp: 2023-06-09T12:40:46.684871
 ALTER TABLE "plate" ADD "sodium" DOUBLE;
 success!
+timestamp: 2023-06-09T15:55:16.682273
+CREATE TABLE "plates"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "food_name" CHAR(512),
+    "quantity" CHAR(512),
+    "calories" DOUBLE,
+    "proteins" DOUBLE,
+    "lipid_fat" DOUBLE,
+    "carbs" DOUBLE,
+    "sugars" DOUBLE,
+    "fiber" DOUBLE,
+    "calcium" DOUBLE,
+    "iron" DOUBLE,
+    "sodium" DOUBLE,
+    "created_on" TIMESTAMP,
+    "created_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "modified_on" TIMESTAMP,
+    "modified_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "is_active" CHAR(1)
+);
+success!
