@@ -108,8 +108,47 @@
         <h1 class="title">Search Plates</h1>
         
         <div class="field">
-            <input class="input" v-model="plates_search_bar" v-on:keyup="filter_search" placeholder="Search users">
+            <input class="input" v-model="plates_search_bar" v-on:keyup="filter_plate_search" placeholder="Search users">
         </div>
+        
+        <ul v-for="item in plate_search_results">
+            <a href="javascript:void(0)" @click="display_public_table">{{item}}</a>
+        </ul>
+        
+        <h1 class="title">Plate</h1>
+
+        <table class="table is-striped is-fullwidth has-text-centered">
+            <tr>
+                <th>Food<br>Name</th>
+                <th>Quantity<br>(servings)</th>
+                <th>Calories<br>(kcal)</th>
+                <th>Protein<br>(g)</th>
+                <th>Fat<br>(g)</th>
+                <th>Carbohydrate<br>(g)</th>
+                <th>Sugar<br>(g)</th>
+                <th>Fiber<br>(g)</th>
+                <th>Calcium<br>(mg)</th>
+                <th>Iron<br>(mg)</th>
+                <th>Sodium<br>(mg)</th>
+            </tr>
+
+            <template v-for="(item, index) in public_plate">
+                <tr>
+                    <td>{{ item.food_name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.calories }}</td>
+                    <td>{{ item.proteins }}</td>
+                    <td>{{ item.lipid_fat }}</td>
+                    <td>{{ item.carbs }}</td>
+                    <td>{{ item.sugars }}</td>
+                    <td>{{ item.fiber }}</td>
+                    <td>{{ item.calcium }}</td>
+                    <td>{{ item.iron }}</td>
+                    <td>{{ item.sodium }}</td>
+                </tr>
+            </template>
+
+        </table>
         
         <a class="button is-warning" @click="main_page_button">
             <span class="icon"><i class="fa fa-fw fa-arrow-left"></i></span>
@@ -241,6 +280,7 @@
     let make_plate_public_url = "[[=XML(make_plate_public_url)]]";
     let make_plate_private_url = "[[=XML(make_plate_private_url)]]";
     let check_privacy_url = "[[=XML(check_privacy_url)]]";
+    let get_public_users_url = "[[=XML(get_public_users_url)]]";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>

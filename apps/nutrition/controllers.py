@@ -27,6 +27,7 @@ def index():
         make_plate_public_url = URL('make_plate_public', signer=url_signer),
         make_plate_private_url = URL('make_plate_private', signer=url_signer),
         check_privacy_url = URL('check_privacy', signer=url_signer),
+        get_public_users_url = URL('get_public_users', signer=url_signer),
         url_signer=url_signer
     )
 
@@ -111,9 +112,16 @@ def make_plate_private():
 def check_privacy():
     status = 0
     query = db(db.public_plates.user_id == auth.current_user.get('id')).select()
-    
     # User not in db, meaning they are private
     if len(query) == 0:
         status = 1
-        
     return dict(status=status)
+
+@action("get_public_users", method=["GET", "POST"])
+@action.uses()
+def get_public_users():
+    rows = db(db.public_plates).select(db.public_plates.user_id).as_list()
+    usernames = []
+    for i in range(len(rows)):
+        usernames.append(db(db.auth_user.id == rows[i]['user_id']).select(db.auth_user.username))
+    return dict(rows=rows, usernames=usernames)

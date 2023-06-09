@@ -38,6 +38,9 @@ let init = (app) => {
             }
         }),
         plates_search_bar: [],
+        all_public_plates: [],
+        plate_search_results: [],
+        public_plate: [],
     };    
 
     app.enumerate = (a) => {
@@ -211,6 +214,22 @@ let init = (app) => {
                     console.log('user added to public plates db');
                 });
             }
+            axios.get('../get_public_users').then(function(response) {
+              app.data.all_public_plates = response.data.usernames;
+            });
+        },
+        
+        filter_plate_search: function(){
+            app.vue.plate_search_results = [];
+            for (i in app.data.all_public_plates){
+                if (app.data.all_public_plates[i][0]['username'].startsWith(app.data.plates_search_bar)){
+                    app.vue.plate_search_results.push(app.data.all_public_plates[i][0].username);
+                }
+            }
+        },
+        
+        display_public_table: function(){
+        
         },
     
         searchFoods: function() {
@@ -280,6 +299,10 @@ let init = (app) => {
                       "iron": response.data.iron,
                       "sodium": response.data.sodium};
           app.data.total = dict;
+        });
+        
+        axios.get('../get_public_users').then(function(response) {
+          app.data.all_public_plates = response.data.usernames;
         });
         
       };
