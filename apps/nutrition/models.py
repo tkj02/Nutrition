@@ -9,9 +9,17 @@ def get_username():
 
 db.define_table(
     'plate',
-    Field('food_name', requires=IS_NOT_EMPTY()),
+    Field('food_name', 'string', requires=IS_NOT_EMPTY()),
     Field('quantity', requires=IS_NOT_EMPTY()),
-    Field('calories', 'integer', requires=IS_NOT_EMPTY()),
+    Field('calories', 'float', requires=IS_NOT_EMPTY()),
+    Field('proteins', 'float', requires=IS_NOT_EMPTY()),
+    Field('lipid_fat', 'float', requires=IS_NOT_EMPTY()),
+    Field('carbs', 'float', requires=IS_NOT_EMPTY()),
+    Field('sugars', 'float', requires=IS_NOT_EMPTY()),
+    Field('fiber', 'float', requires=IS_NOT_EMPTY()),
+    Field('calcium', 'float', requires=IS_NOT_EMPTY()),
+    Field('iron', 'float', requires=IS_NOT_EMPTY()),
+    Field('sodium', 'float', requires=IS_NOT_EMPTY()),
     # other fields for each nutritional category
     auth.signature
 )

@@ -102,25 +102,31 @@ let init = (app) => {
             const entry_id = entry.id;
             console.log("Entry ID to be deleted:", entry_id);
             console.log("Plate entries:", app.data.plate);
-            
-            app.data.plate.splice(index, 1); // Remove the entry from the plate array
-            localStorage.setItem('plateData', JSON.stringify(app.data.plate));
         
-            // Updates totals table
-            axios.post("../update_total", {plate: app.data.plate}).then(function(response) {
-              var dict = {"quantity": response.data.quantity,
-                          "calories": response.data.calories,
-                          "proteins": response.data.proteins,
-                          "lipid_fat": response.data.lipid_fat,
-                          "proteins": response.data.proteins,
-                          "carbs": response.data.carbs,
-                          "sugars": response.data.sugars,
-                          "fiber": response.data.fiber,
-                          "calcium": response.data.calcium,
-                          "iron": response.data.iron,
-                          "sodium": response.data.sodium};
-              app.data.total = dict;
+            axios
+                .post("../remove_food", { entry_id: entry_id })
+                .then(function(response) {
+                // Updates totals table
+                /*axios.post("../update_total", { plate: app.data.plate }).then(function(response) {
+                    var dict = {
+                        "quantity": response.data.quantity,
+                        "calories": response.data.calories,
+                        "proteins": response.data.proteins,
+                        "lipid_fat": response.data.lipid_fat,
+                        "carbs": response.data.carbs,
+                        "sugars": response.data.sugars,
+                        "fiber": response.data.fiber,
+                        "calcium": response.data.calcium,
+                        "iron": response.data.iron,
+                        "sodium": response.data.sodium
+                    };
+                    app.data.total = dict;
+                });*/
+                location.reload();
+            }).catch(function(error) {
+                console.log("Error deleting entry:", error);
             });
+            
         },
         
         add_entry: function(food_name, quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium) {
@@ -130,8 +136,22 @@ let init = (app) => {
                 app.data.quantity = "";
             } else {
                 // Adds food to plate table
-                axios.post("../add_food", { food_name: food_name, quantity: quantity }).then(function(response) {
-                    const newEntry = {
+                axios
+                    .post("../add_food", {
+                        food_name: food_name,
+                        quantity: quantity,
+                        calories: calories,
+                        proteins: proteins,
+                        lipid_fat: lipid_fat,
+                        carbs: carbs,
+                        sugars: sugars,
+                        fiber: fiber,
+                        calcium: calcium,
+                        iron: iron,
+                        sodium: sodium
+                    })
+                    .then(function(response) {
+                        const newEntry = {
                         ...response.data.plate_rows[0], // Assuming the API response returns a single entry
                         food_name: food_name,
                         quantity: quantity, // Update the quantity for the new entry
@@ -149,7 +169,7 @@ let init = (app) => {
                     app.data.plate = [...app.data.plate, newEntry];
                     localStorage.setItem('plateData', JSON.stringify(app.data.plate));
 
-                    console.log("DATA HERE: ", JSON.stringify(app.data.plate));
+                    //console.log("DATA HERE: ", JSON.stringify(app.data.plate));
                     
                     // Updates totals table
                     axios.post("../update_total", {plate: app.data.plate}).then(function(response) {
@@ -204,7 +224,7 @@ let init = (app) => {
             if (entry) {
                 var originalQuantity = entry.originalQuantity; // Get the original quantity or default to 1
                 const ratio = newQuantity / originalQuantity; // Calculate the ratio between the new and original quantity
-                console.log(originalQuantity);
+                //console.log(originalQuantity);
                 entry.quantity = newQuantity;
                 entry.originalQuantity = newQuantity;
                 app.data.plate.splice(index, 1, entry);
@@ -319,15 +339,10 @@ let init = (app) => {
 
     // And this initializes it.
     app.init = () => {
-        // Check if data exists in localStorage
-        if (localStorage.getItem('plateData')) {
-            app.vue.plate = JSON.parse(localStorage.getItem('plateData'));
-        } else {
-            // Fetch plate data from the server
-            axios.get('../get_plate').then(function(response) {
-              app.vue.plate = response.data.rows;
-            });
-        }
+        // Fetch plate data from the server
+        axios.get('../get_plate').then(function(response) {
+          app.vue.plate = response.data.rows;
+        });
       
         // Fetch all foods data from the server
         axios.get('../get_food_data').then(function(response) {

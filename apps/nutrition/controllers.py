@@ -41,12 +41,24 @@ def get_food_data():
     return json_data
 
 # Removes an entry from current user's plate
-@action("remove_entry", method=["GET", "POST"])
+@action('remove_food', method=["POST"])
 @action.uses(db, auth.user)
-def remove_entry():
-    db(db.plate.id == request.json.get("entry_id")).delete()
-    plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select()
-    return dict(plate_rows=plate_rows)
+def remove_food():
+    entry_id = request.json.get("entry_id")
+
+    try:
+        entry = db((db.plate.id == entry_id)).select().first()
+        if entry:
+            entry.delete_record()
+            print("Entry deleted successfully from the plate table.")
+            return dict(success=True)
+        else:
+            print("Entry not found in the plate table.")
+    except Exception as e:
+        print(f"Error removing entry from the plate table: {e}")
+
+    return dict(success=False)
+
 
 # Gets all entries in the plate for current user
 @action("get_plate")
@@ -61,50 +73,75 @@ def get_plate():
 def add_food():
     food_name = request.json.get("food_name")
     quantity = request.json.get("quantity")
-    calories = 10  # Change to be proportional to actual calories with respect to quantity
-    #print(get_username(), food_name, quantity, calories)
+    calories = request.json.get("calories")
+    proteins = request.json.get("proteins")
+    lipid_fat = request.json.get("lipid_fat")
+    carbs = request.json.get("carbs")
+    sugars = request.json.get("sugars")
+    fiber = request.json.get("fiber")
+    calcium = request.json.get("calcium")
+    iron = request.json.get("iron")
+    sodium = request.json.get("sodium")
+    
     try:
         db.plate.insert(
-            food_name=food_name,
+            #food_name=food_name,
             quantity=quantity,
-            calories=calories
+            calories=calories,
+            proteins=proteins,
+            lipid_fat=lipid_fat,
+            carbs=carbs,
+            sugars=sugars,
+            fiber=fiber,
+            calcium=calcium,
+            iron=iron,
+            sodium=sodium
         )
         print("Data inserted successfully into the plate table.")
     except Exception as e:
         print(f"Error inserting row into plate table: {e}")
     
     plate_rows = db(db.plate).select().as_list()
+    
+    #print("rows", plate_rows)
     return dict(plate_rows=plate_rows)
 
 
 @action('update_total', method=["GET", "POST"])
 @action.uses(db, auth.user)
 def update_total():
-    plate_rows = request.json.get("plate")
+    plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select().as_list()
     quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
     for row in plate_rows:
         if isinstance(row, dict):
-            if "quantity" in row:
-                quantity += float(row["quantity"])
-                calories += float(row["calories"])
-                proteins += float(row["proteins"])
-                lipid_fat += float(row["lipid_fat"])
-                carbs += float(row["carbs"])
-                sugars += float(row["sugars"])
-                fiber += float(row["fiber"])
-                calcium += float(row["calcium"])
-                iron += float(row["iron"])
-                sodium += float(row["sodium"])
-            else:
-                # Handle missing "quantity" key in the row dictionary
-                print("Missing 'quantity' key in a row dictionary.")
+            # Calculation logic using row["quantity"], row["calories"], etc.
+            quantity += float(row["quantity"])
+            calories += float(row["calories"])
+            proteins += float(row["proteins"])
+            lipid_fat += float(row["lipid_fat"])
+            carbs += float(row["carbs"])
+            sugars += float(row["sugars"])
+            fiber += float(row["fiber"])
+            calcium += float(row["calcium"])
+            iron += float(row["iron"])
+            sodium += float(row["sodium"])
         else:
             # Handle non-dictionary row elements in the list
             print("Non-dictionary element found in the plate_rows list.")
 
-    return dict(quantity=quantity, calories=calories, proteins=proteins, lipid_fat=lipid_fat, carbs=carbs,
-                sugars=sugars, fiber=fiber, calcium=calcium, iron=iron, sodium=sodium)
+    return dict(
+        quantity=quantity,
+        calories=calories,
+        proteins=proteins,
+        lipid_fat=lipid_fat,
+        carbs=carbs,
+        sugars=sugars,
+        fiber=fiber,
+        calcium=calcium,
+        iron=iron,
+        sodium=sodium
+    )
 
 
 @action('make_plate_public', method=["GET", "POST"])
