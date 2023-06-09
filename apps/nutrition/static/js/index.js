@@ -107,15 +107,15 @@ let init = (app) => {
                         ...response.data.plate_rows[0], // Assuming the API response returns a single entry
                         food_name: food_name,
                         quantity: quantity, // Update the quantity for the new entry
-                        calories: String((Number(quantity))*(Number(calories))),// Assign the calories value
-                        proteins: proteins,
-                        lipid_fat: lipid_fat,
-                        carbs: carbs,
-                        sugars: sugars,
-                        fiber: fiber,
-                        calcium: calcium,
-                        iron: iron,
-                        sodium: sodium
+                        calories: String(Number((Number(quantity))*(Number(calories)).toFixed(2))),// Assign the calories value
+                        proteins: String(Number((Number(quantity))*(Number(proteins)).toFixed(2))),
+                        lipid_fat: String(Number((Number(quantity))*(Number(lipid_fat)).toFixed(2))),
+                        carbs: String(Number((Number(quantity))*(Number(carbs)).toFixed(2))),
+                        sugars: String(Number((Number(quantity))*(Number(sugars)).toFixed(2))),
+                        fiber: String(Number((Number(quantity))*(Number(fiber)).toFixed(2))),
+                        calcium: String(Number((Number(quantity))*(Number(calcium)).toFixed(2))),
+                        iron: String(Number((Number(quantity))*(Number(iron)).toFixed(2))),
+                        sodium: String(Number((Number(quantity))*(Number(sodium)).toFixed(2)))
                     };
                     app.data.plate = [...app.data.plate, newEntry];
                     localStorage.setItem('plateData', JSON.stringify(app.data.plate));
