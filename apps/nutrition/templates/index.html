@@ -103,8 +103,23 @@
             <span>Back</span>
         </a>
     </div>
+    
+    <div v-else-if="search_plates_mode == true">
+        <h1 class="title">Search Plates</h1>
+        
+        <div class="field">
+            <input class="input" v-model="plates_search_bar" v-on:keyup="filter_search" placeholder="Search users">
+        </div>
+        
+        <a class="button is-warning" @click="main_page_button">
+            <span class="icon"><i class="fa fa-fw fa-arrow-left"></i></span>
+            <span>Back</span>
+        </a>
+        
+    </div>
 
     <div v-else-if="main_page_mode == true">
+        
         <h1 class="title">Plate</h1>
 
         <table class="table is-striped is-fullwidth has-text-centered">
@@ -148,15 +163,36 @@
 
         </table>
 
-        <a class="button is-primary" @click="add_entry_button">
-            <span>Add Food</span>
-        </a>
-        <a class="button is-info" @click="view_info_button">
-            <span>View Nutrition</span>
-        </a>
+        <div class="buttons">
+            <a class="button is-primary" @click="add_entry_button">
+                <span>Add Food</span>
+            </a>
+
+            <a class="button is-info" @click="view_info_button">
+                <span>View Nutrition</span>
+            </a>
+            
+            <a class="button is-warning" @click="search_plates_button">
+                <span>Search Public Plates</span>
+            </a>
+
+            <div v-if="privacy_status == true">
+                <a class="button is-success" @click="change_privacy">
+                    <span>Make Plate Public</span>
+                </a>
+            </div>
+            <div v-else>
+                <a class="button is-danger" @click="change_privacy">
+                    <span>Make Plate Private</span>
+                </a>
+            </div>
+            
+        </div>
+        
         <span>
             <br><br><br>
         </span>
+        
         <h1 class="title"><br>Total</h1>
 
         <table class="table is-striped is-fullwidth has-text-centered">

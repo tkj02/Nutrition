@@ -97,3 +97,14 @@ success!
 success!
 success!
 success!
+timestamp: 2023-06-08T21:00:53.154199
+CREATE TABLE "public_plates"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" CHAR(512),
+    "created_on" TIMESTAMP,
+    "created_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "modified_on" TIMESTAMP,
+    "modified_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "is_active" CHAR(1)
+);
+success!

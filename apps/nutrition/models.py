@@ -8,7 +8,7 @@ def get_username():
     return auth.current_user.get('username') if auth.current_user else None
 
 db.define_table(
-    'all_foods',
+    'plate',
     Field('food_name', requires=IS_NOT_EMPTY()),
     Field('quantity', requires=IS_NOT_EMPTY()),
     Field('calories', 'integer', requires=IS_NOT_EMPTY()),
@@ -17,11 +17,8 @@ db.define_table(
 )
 
 db.define_table(
-    'plate',
-    Field('food_name', requires=IS_NOT_EMPTY()),
-    Field('quantity', requires=IS_NOT_EMPTY()),
-    Field('calories', 'integer', requires=IS_NOT_EMPTY()),
-    # other fields for each nutritional category
+    'public_plates',
+    Field('user_id', requires=IS_NOT_EMPTY()),
     auth.signature
 )
 

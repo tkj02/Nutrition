@@ -14,6 +14,7 @@ let init = (app) => {
         add_food_mode: false,
         edit_food_mode: false,
         view_nutrition_mode: false,
+        search_plates_mode: false,
         food_name: "",
         quantity: "",
         proteins: "",
@@ -27,7 +28,9 @@ let init = (app) => {
         sodium: "",
         edit_id: "",
         searchResults: [],
-        all_foods: []
+        all_foods: [],
+        privacy_status: true,
+        plates_search_bar: [],
     };    
 
     app.enumerate = (a) => {
@@ -44,6 +47,7 @@ let init = (app) => {
             app.data.add_food_mode = false;
             app.data.edit_food_mode = false;
             app.data.view_nutrition_mode = false;
+            app.data.search_plates_mode = false;
         },
         
         add_entry_button: function(){
@@ -51,6 +55,7 @@ let init = (app) => {
             app.data.add_food_mode = true;
             app.data.edit_food_mode = false;
             app.data.view_nutrition_mode = false;
+            app.data.search_plates_mode = false;
         },
         
         edit_entry_button: function(entry_id){
@@ -58,6 +63,7 @@ let init = (app) => {
             app.data.add_food_mode = false;
             app.data.edit_food_mode = true;
             app.data.view_nutrition_mode = false;
+            app.data.search_plates_mode = false;
             
             app.data.edit_id = entry_id;
         },
@@ -67,6 +73,15 @@ let init = (app) => {
             app.data.add_food_mode = false;
             app.data.edit_food_mode = false;
             app.data.view_nutrition_mode = true;
+            app.data.search_plates_mode = false;
+        },
+        
+        search_plates_button: function(){
+            app.data.main_page_mode = false;
+            app.data.add_food_mode = false;
+            app.data.edit_food_mode = false;
+            app.data.view_nutrition_mode = false;
+            app.data.search_plates_mode = true;
         },
         
         remove_entry: function(index) {
@@ -175,8 +190,17 @@ let init = (app) => {
         },
           
         
-        get_nutritional_info: function(food_name){
-            //complete
+        change_privacy: function(){
+            app.data.privacy_status = !app.data.privacy_status;
+            
+            // Set to true -- plate is private
+            if (app.data.privacy_status){
+                //remove from public_plates db
+            }
+            // Set to false -- plate is public
+            else{
+                // add to public_plates db
+            }
         },
     
         searchFoods: function() {
