@@ -66,16 +66,16 @@
             <table class="table is-striped is-fullwidth has-text-centered">
                 <tr>
                     <th></th>
-                    <th>Quantity (servings)</th>
-                    <th>Calories (kcal)</th>
-                    <th>Protein (g)</th>
-                    <th>Fat (g)</th>
-                    <th>Carbohydrate (g)</th>
-                    <th>Sugar (g)</th>
-                    <th>Fiber (g)</th>
-                    <th>Calcium (mg)</th>
-                    <th>Iron (mg)</th>
-                    <th>Sodium (mg)</th>
+                    <th>Quantity<br>(servings)</th>
+                    <th>Calories<br>(kcal)</th>
+                    <th>Protein<br>(g)</th>
+                    <th>Fat<br>(g)</th>
+                    <th>Carbohydrate<br>(g)</th>
+                    <th>Sugar<br>(g)</th>
+                    <th>Fiber<br>(g)</th>
+                    <th>Calcium<br>(mg)</th>
+                    <th>Iron<br>(mg)</th>
+                    <th>Sodium<br>(mg)</th>
                     <th></th>
                 </tr>
     
@@ -109,26 +109,25 @@
 
         <table class="table is-striped is-fullwidth has-text-centered">
             <tr>
-                <th>Food Name</th>
-                <th>Quantity (servings)</th>
-                <th>Calories (kcal)</th>
-                <th>Protein (g)</th>
-                <th>Fat (g)</th>
-                <th>Carbohydrate (g)</th>
-                <th>Sugar (g)</th>
-                <th>Fiber (g)</th>
-                <th>Calcium (mg)</th>
-                <th>Iron (mg)</th>
-                <th>Sodium (mg)</th>
+                <th>Food<br>Name</th>
+                <th>Quantity<br>(servings)</th>
+                <th>Calories<br>(kcal)</th>
+                <th>Protein<br>(g)</th>
+                <th>Fat<br>(g)</th>
+                <th>Carbohydrate<br>(g)</th>
+                <th>Sugar<br>(g)</th>
+                <th>Fiber<br>(g)</th>
+                <th>Calcium<br>(mg)</th>
+                <th>Iron<br>(mg)</th>
+                <th>Sodium<br>(mg)</th>
                 <th></th>
             </tr>
 
-            <!-- placeholder -- use app.data.plate-->
             <template v-for="(item, index) in plate">
                 <tr>
                     <td>{{ item.food_name }}</td>
                     <td>
-                        <input type="text" v-model="item.quantity" @change="updateQuantity(item, $event.target.value)">
+                        <input type="text" size="5" v-model="item.quantity" @change="updateQuantity(item, $event.target.value)">
                     </td>
                     <td>{{ item.calories }}</td>
                     <td>{{ item.proteins }}</td>
@@ -142,7 +141,6 @@
                     <td>
                         <a class="button is-danger" @click="remove_entry(index)">
                             <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
-                            <span>Delete</span>
                         </a>
                     </td>
                 </tr>
@@ -164,16 +162,16 @@
         <table class="table is-striped is-fullwidth has-text-centered">
             <tr>
                 <th></th>
-                <th>Quantity (servings)</th>
-                <th>Calories (kcal)</th>
-                <th>Protein (g)</th>
-                <th>Fat (g)</th>
-                <th>Carbohydrate (g)</th>
-                <th>Sugar (g)</th>
-                <th>Fiber (g)</th>
-                <th>Calcium (mg)</th>
-                <th>Iron (mg)</th>
-                <th>Sodium (mg)</th>
+                <th>Quantity<br>(servings)</th>
+                <th>Calories<br>(kcal)</th>
+                <th>Protein<br>(g)</th>
+                <th>Fat<br>(g)</th>
+                <th>Carbohydrate<br>(g)</th>
+                <th>Sugar<br>(g)</th>
+                <th>Fiber<br>(g)</th>
+                <th>Calcium<br>(mg)</th>
+                <th>Iron<br>(mg)</th>
+                <th>Sodium<br>(mg)</th>
                 <th></th>
             </tr>
 
