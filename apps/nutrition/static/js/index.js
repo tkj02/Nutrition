@@ -176,50 +176,50 @@ let init = (app) => {
         updateQuantity: function(index, newQuantity) {
             // Validate the new quantity input
             if (newQuantity < 0) {
-              alert("Quantity is not valid.\nReturning to the main page.");
-              return;
+                alert("Quantity is not valid.\nReturning to the main page.");
+                return;
             }
           
             // Check if the index is within the range of the plate array
             if (index < 0 || index >= app.data.plate.length) {
-              alert("Invalid index.\nReturning to the main page.");
-              return;
+                alert("Invalid index.\nReturning to the main page.");
+                return;
             }
           
             // Update the quantity for the specified food entry
             const entry = app.data.plate[index];
             if (entry) {
-              var originalQuantity = entry.originalQuantity; // Get the original quantity or default to 1
-              const ratio = newQuantity / originalQuantity; // Calculate the ratio between the new and original quantity
-              console.log(originalQuantity);
-              entry.quantity = newQuantity;
-              app.data.plate.splice(index, 1, entry);
-              localStorage.setItem("plateData", JSON.stringify(app.data.plate));
+                var originalQuantity = entry.originalQuantity; // Get the original quantity or default to 1
+                const ratio = newQuantity / originalQuantity; // Calculate the ratio between the new and original quantity
+                console.log(originalQuantity);
+                entry.quantity = newQuantity;
+                app.data.plate.splice(index, 1, entry);
+                localStorage.setItem("plateData", JSON.stringify(app.data.plate));
+            
+                // Calculate and update the other nutrients based on the ratio
+                const nutrients = ["calories", "proteins", "lipid_fat", "carbs", "sugars", "fiber", "calcium", "iron", "sodium"];
+                nutrients.forEach((nutrient) => {
+                    entry[nutrient] = String((Number(entry[nutrient]) * ratio).toFixed(2));
+                });
           
-              // Calculate and update the other nutrients based on the ratio
-              const nutrients = ["calories", "proteins", "lipid_fat", "carbs", "sugars", "fiber", "calcium", "iron", "sodium"];
-              nutrients.forEach((nutrient) => {
-                entry[nutrient] = String((Number(entry[nutrient]) * ratio).toFixed(2));
-              });
-          
-              // Update totals table
-              axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
-                const dict = {
-                  quantity: response.data.quantity,
-                  calories: response.data.calories,
-                  proteins: response.data.proteins,
-                  lipid_fat: response.data.lipid_fat,
-                  carbs: response.data.carbs,
-                  sugars: response.data.sugars,
-                  fiber: response.data.fiber,
-                  calcium: response.data.calcium,
-                  iron: response.data.iron,
-                  sodium: response.data.sodium,
-                };
-                app.data.total = dict;
-              });
+                // Update totals table
+                axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
+                    const dict = {
+                        quantity: response.data.quantity,
+                        calories: response.data.calories,
+                        proteins: response.data.proteins,
+                        lipid_fat: response.data.lipid_fat,
+                        carbs: response.data.carbs,
+                        sugars: response.data.sugars,
+                        fiber: response.data.fiber,
+                        calcium: response.data.calcium,
+                        iron: response.data.iron,
+                        sodium: response.data.sodium,
+                    };
+                    app.data.total = dict;
+                });
             } else {
-              alert("Invalid entry.\nReturning to the main page.");
+                alert("Invalid entry.\nReturning to the main page.");
             }
         },                    
         
@@ -299,17 +299,17 @@ let init = (app) => {
     app.init = () => {
         // Check if data exists in localStorage
         if (localStorage.getItem('plateData')) {
-          app.vue.plate = JSON.parse(localStorage.getItem('plateData'));
+            app.vue.plate = JSON.parse(localStorage.getItem('plateData'));
         } else {
-          // Fetch plate data from the server
-          axios.get('../get_plate').then(function(response) {
-            app.vue.plate = response.data.rows;
-          });
+            // Fetch plate data from the server
+            axios.get('../get_plate').then(function(response) {
+              app.vue.plate = response.data.rows;
+            });
         }
       
         // Fetch all foods data from the server
         axios.get('../get_food_data').then(function(response) {
-          app.data.all_foods = response.data;
+            app.data.all_foods = response.data;
         });
       
         // Updates totals table
@@ -329,7 +329,7 @@ let init = (app) => {
         });
         
         axios.get('../get_public_users').then(function(response) {
-          app.data.all_public_plates = response.data.usernames;
+            app.data.all_public_plates = response.data.usernames;
         });
         
       };
