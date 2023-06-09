@@ -193,6 +193,7 @@ let init = (app) => {
                 const ratio = newQuantity / originalQuantity; // Calculate the ratio between the new and original quantity
                 console.log(originalQuantity);
                 entry.quantity = newQuantity;
+                entry.originalQuantity = newQuantity;
                 app.data.plate.splice(index, 1, entry);
                 localStorage.setItem("plateData", JSON.stringify(app.data.plate));
             
