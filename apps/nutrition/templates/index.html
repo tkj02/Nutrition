@@ -181,7 +181,7 @@
                 <tr>
                     <td>{{ item.food_name }}</td>
                     <td>
-                        <input type="text" size="5" v-model="item.quantity" @change="updateQuantity(item, $event.target.value)">
+                        <input type="text" size="5" v-model="item.quantity" @change="updateQuantity(index, $event.target.value)">
                     </td>
                     <td>{{ item.calories }}</td>
                     <td>{{ item.proteins }}</td>

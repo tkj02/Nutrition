@@ -132,6 +132,7 @@ let init = (app) => {
                         ...response.data.plate_rows[0], // Assuming the API response returns a single entry
                         food_name: food_name,
                         quantity: quantity, // Update the quantity for the new entry
+                        originalQuantity: quantity,
                         calories: String(Number((Number(quantity))*(Number(calories)).toFixed(2))),// Assign the calories value
                         proteins: String(Number((Number(quantity))*(Number(proteins)).toFixed(2))),
                         lipid_fat: String(Number((Number(quantity))*(Number(lipid_fat)).toFixed(2))),
@@ -172,32 +173,52 @@ let init = (app) => {
         updateQuantity: function(index, newQuantity) {
             // Validate the new quantity input
             if (newQuantity % 1 !== 0 || newQuantity < 0) {
-              alert("Quantity is not valid.\nReturning to main page.");
+              alert("Quantity is not valid.\nReturning to the main page.");
+              return;
+            }
+          
+            // Check if the index is within the range of the plate array
+            if (index < 0 || index >= app.data.plate.length) {
+              alert("Invalid index.\nReturning to the main page.");
               return;
             }
           
             // Update the quantity for the specified food entry
             const entry = app.data.plate[index];
-            entry.quantity = newQuantity;
-            app.data.plate.splice(index, 1, entry);
-            localStorage.setItem('plateData', JSON.stringify(app.data.plate));
+            if (entry) {
+              var originalQuantity = entry.originalQuantity; // Get the original quantity or default to 1
+              const ratio = newQuantity / originalQuantity; // Calculate the ratio between the new and original quantity
+              console.log(originalQuantity);
+              entry.quantity = newQuantity;
+              app.data.plate.splice(index, 1, entry);
+              localStorage.setItem("plateData", JSON.stringify(app.data.plate));
           
-            // Updates totals table
-            axios.post("../update_total", {plate: app.data.plate}).then(function(response) {
-              var dict = {"quantity": response.data.quantity,
-                          "calories": response.data.calories,
-                          "proteins": response.data.proteins,
-                          "lipid_fat": response.data.lipid_fat,
-                          "proteins": response.data.proteins,
-                          "carbs": response.data.carbs,
-                          "sugars": response.data.sugars,
-                          "fiber": response.data.fiber,
-                          "calcium": response.data.calcium,
-                          "iron": response.data.iron,
-                          "sodium": response.data.sodium};
-              app.data.total = dict;
-            });
-        },
+              // Calculate and update the other nutrients based on the ratio
+              const nutrients = ["calories", "proteins", "lipid_fat", "carbs", "sugars", "fiber", "calcium", "iron", "sodium"];
+              nutrients.forEach((nutrient) => {
+                entry[nutrient] = String((Number(entry[nutrient]) * ratio).toFixed(2));
+              });
+          
+              // Update totals table
+              axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
+                const dict = {
+                  quantity: response.data.quantity,
+                  calories: response.data.calories,
+                  proteins: response.data.proteins,
+                  lipid_fat: response.data.lipid_fat,
+                  carbs: response.data.carbs,
+                  sugars: response.data.sugars,
+                  fiber: response.data.fiber,
+                  calcium: response.data.calcium,
+                  iron: response.data.iron,
+                  sodium: response.data.sodium,
+                };
+                app.data.total = dict;
+              });
+            } else {
+              alert("Invalid entry.\nReturning to the main page.");
+            }
+        },                    
         
         change_privacy: function(){
             app.data.privacy_status = !app.data.privacy_status;
