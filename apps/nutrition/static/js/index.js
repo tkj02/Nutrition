@@ -103,32 +103,30 @@ let init = (app) => {
             console.log("Entry ID to be deleted:", entry_id);
             console.log("Plate entries:", app.data.plate);
         
-            axios.post("../remove_food", { entry_id: entry_id }).then(function(response) {
-                // Remove the entry from the plate array if deletion was successful
-                if (response.data.success) {
-                    app.data.plate.splice(index, 1);
-                    localStorage.setItem('plateData', JSON.stringify(app.data.plate));
-        
-                    // Updates totals table
-                    axios.post("../update_total", { plate: app.data.plate }).then(function(response) {
-                        var dict = {
-                            "quantity": response.data.quantity,
-                            "calories": response.data.calories,
-                            "proteins": response.data.proteins,
-                            "lipid_fat": response.data.lipid_fat,
-                            "carbs": response.data.carbs,
-                            "sugars": response.data.sugars,
-                            "fiber": response.data.fiber,
-                            "calcium": response.data.calcium,
-                            "iron": response.data.iron,
-                            "sodium": response.data.sodium
-                        };
-                        app.data.total = dict;
-                    });
-                } else {
-                    console.log("Error removing entry from the plate.");
-                }
+            axios
+                .post("../remove_food", { entry_id: entry_id })
+                .then(function(response) {
+                // Updates totals table
+                /*axios.post("../update_total", { plate: app.data.plate }).then(function(response) {
+                    var dict = {
+                        "quantity": response.data.quantity,
+                        "calories": response.data.calories,
+                        "proteins": response.data.proteins,
+                        "lipid_fat": response.data.lipid_fat,
+                        "carbs": response.data.carbs,
+                        "sugars": response.data.sugars,
+                        "fiber": response.data.fiber,
+                        "calcium": response.data.calcium,
+                        "iron": response.data.iron,
+                        "sodium": response.data.sodium
+                    };
+                    app.data.total = dict;
+                });*/
+                location.reload();
+            }).catch(function(error) {
+                console.log("Error deleting entry:", error);
             });
+            
         },
         
         add_entry: function(food_name, quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium) {

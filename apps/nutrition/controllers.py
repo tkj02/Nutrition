@@ -47,7 +47,7 @@ def remove_food():
     entry_id = request.json.get("entry_id")
 
     try:
-        entry = db((db.plate.id == entry_id) & (db.plate.user_id == auth.current_user.get('id'))).select().first()
+        entry = db((db.plate.id == entry_id)).select().first()
         if entry:
             entry.delete_record()
             print("Entry deleted successfully from the plate table.")
@@ -59,12 +59,12 @@ def remove_food():
 
     return dict(success=False)
 
+
 # Gets all entries in the plate for current user
 @action("get_plate")
 @action.uses(db, auth.user)
 def get_plate():
     rows = db(db.plate.created_by == auth.current_user.get('id')).select().as_list()
-    print("HI")
     return dict(rows=rows)
 
 # Add new row to plate
