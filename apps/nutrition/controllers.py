@@ -85,8 +85,8 @@ def update_total():
     for row in plate_rows:
         if isinstance(row, dict):
             if "quantity" in row:
-                quantity += int(row["quantity"])
-                calories += int(row["calories"])
+                quantity += float(row["quantity"])
+                calories += float(row["calories"])
                 proteins += float(row["proteins"])
                 lipid_fat += float(row["lipid_fat"])
                 carbs += float(row["carbs"])

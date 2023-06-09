@@ -125,7 +125,7 @@ let init = (app) => {
         
         add_entry: function(food_name, quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium) {
             // Validates quantity input
-            if (quantity % 1 != 0 || quantity < 0) {
+            if (quantity < 0) {
                 alert("Quantity is not valid.\nReturning to main page.")
                 app.data.quantity = "";
             } else {
@@ -175,7 +175,7 @@ let init = (app) => {
 
         updateQuantity: function(index, newQuantity) {
             // Validate the new quantity input
-            if (newQuantity % 1 !== 0 || newQuantity < 0) {
+            if (newQuantity < 0) {
               alert("Quantity is not valid.\nReturning to the main page.");
               return;
             }
