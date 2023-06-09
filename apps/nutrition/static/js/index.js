@@ -211,7 +211,7 @@ let init = (app) => {
             if (entry) {
                 var originalQuantity = entry.originalQuantity; // Get the original quantity or default to 1
                 const ratio = newQuantity / originalQuantity; // Calculate the ratio between the new and original quantity
-                console.log(originalQuantity);
+                //console.log(originalQuantity);
                 entry.quantity = newQuantity;
                 entry.originalQuantity = newQuantity;
                 app.data.plate.splice(index, 1, entry);

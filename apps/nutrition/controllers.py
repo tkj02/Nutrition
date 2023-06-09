@@ -110,31 +110,38 @@ def add_food():
 @action('update_total', method=["GET", "POST"])
 @action.uses(db, auth.user)
 def update_total():
-    plate_rows = request.json.get("plate")
+    plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select().as_list()
     quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
     for row in plate_rows:
         if isinstance(row, dict):
-            if "quantity" in row:
-                quantity += float(row["quantity"])
-                calories += float(row["calories"])
-                proteins += float(row["proteins"])
-                lipid_fat += float(row["lipid_fat"])
-                carbs += float(row["carbs"])
-                sugars += float(row["sugars"])
-                fiber += float(row["fiber"])
-                calcium += float(row["calcium"])
-                iron += float(row["iron"])
-                sodium += float(row["sodium"])
-            else:
-                # Handle missing "quantity" key in the row dictionary
-                print("Missing 'quantity' key in a row dictionary.")
+            # Calculation logic using row["quantity"], row["calories"], etc.
+            quantity += float(row["quantity"])
+            calories += float(row["calories"]) * quantity
+            proteins += float(row["proteins"]) * quantity
+            lipid_fat += float(row["lipid_fat"]) * quantity
+            carbs += float(row["carbs"]) * quantity
+            sugars += float(row["sugars"]) * quantity
+            fiber += float(row["fiber"]) * quantity
+            calcium += float(row["calcium"]) * quantity
+            iron += float(row["iron"]) * quantity
+            sodium += float(row["sodium"]) * quantity
         else:
             # Handle non-dictionary row elements in the list
             print("Non-dictionary element found in the plate_rows list.")
 
-    return dict(quantity=quantity, calories=calories, proteins=proteins, lipid_fat=lipid_fat, carbs=carbs,
-                sugars=sugars, fiber=fiber, calcium=calcium, iron=iron, sodium=sodium)
+    return dict(
+        quantity=quantity,
+        calories=calories,
+        proteins=proteins,
+        lipid_fat=lipid_fat,
+        carbs=carbs,
+        sugars=sugars,
+        fiber=fiber,
+        calcium=calcium,
+        iron=iron,
+        sodium=sodium
+    )
 
 
 @action('make_plate_public', method=["GET", "POST"])
