@@ -108,3 +108,4 @@ CREATE TABLE "public_plates"(
     "is_active" CHAR(1)
 );
 success!
+success!

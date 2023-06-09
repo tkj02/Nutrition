@@ -255,10 +255,18 @@ let init = (app) => {
             }
         },
         
-        display_public_table: function(){
-        
+        display_public_table: function(username) {
+            axios.post("../get_public_plate", { username: username })
+              .then(function(response) {
+                console.log(response.data); // Log the response data
+                app.data.public_plate = response.data.plate;
+              })
+              .catch(function(error) {
+                console.log(error); // Log any errors
+              });
         },
-    
+        
+
         searchFoods: function() {
             if (app.data.food_name === "") {
                 app.data.searchResults = []; // Clear search results if search bar is empty
@@ -271,7 +279,7 @@ let init = (app) => {
         },
 
         selectFood: function(food) {
-            console.log(food.description);
+            //console.log(food.description);
             app.data.food_name = food.description;
             
             app.data.proteins = food.foodNutrients[0].amount; // grams

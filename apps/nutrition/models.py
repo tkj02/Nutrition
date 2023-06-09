@@ -18,7 +18,7 @@ db.define_table(
 
 db.define_table(
     'public_plates',
-    Field('user_id', requires=IS_NOT_EMPTY()),
+    Field('user_id', 'reference auth_user', requires=IS_IN_DB(db, db.auth_user.id)),
     auth.signature
 )
 

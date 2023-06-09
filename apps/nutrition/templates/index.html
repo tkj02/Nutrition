@@ -111,11 +111,11 @@
         </div>
         
         <ul v-for="item in plate_search_results">
-            <a href="javascript:void(0)" @click="display_public_table">{{item}}</a>
-        </ul>
+            <a href="javascript:void(0)" @click="display_public_table(item)">{{ item }}</a>
+        </ul>          
         
         <h1 class="title"><br>Plate</h1>
-
+    
         <table class="table is-striped is-fullwidth has-text-centered">
             <tr>
                 <th>Food<br>Name</th>
@@ -130,7 +130,7 @@
                 <th>Iron<br>(mg)</th>
                 <th>Sodium<br>(mg)</th>
             </tr>
-
+    
             <template v-for="(item, index) in public_plate">
                 <tr>
                     <td>{{ item.food_name }}</td>
@@ -146,15 +146,14 @@
                     <td>{{ item.sodium }}</td>
                 </tr>
             </template>
-
         </table>
         
         <a class="button is-warning" @click="main_page_button">
             <span class="icon"><i class="fa fa-fw fa-arrow-left"></i></span>
             <span>Back</span>
         </a>
-        
     </div>
+    
 
     <div v-else-if="main_page_mode == true">
         
@@ -280,6 +279,7 @@
     let make_plate_private_url = "[[=XML(make_plate_private_url)]]";
     let check_privacy_url = "[[=XML(check_privacy_url)]]";
     let get_public_users_url = "[[=XML(get_public_users_url)]]";
+    let get_public_plate_url = "[[=XML(get_public_plate_url)]]";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>

@@ -28,6 +28,7 @@ def index():
         make_plate_private_url = URL('make_plate_private', signer=url_signer),
         check_privacy_url = URL('check_privacy', signer=url_signer),
         get_public_users_url = URL('get_public_users', signer=url_signer),
+        get_public_plate_url = URL('get_public_plate', signer=url_signer),
         url_signer=url_signer
     )
 
@@ -136,3 +137,11 @@ def get_public_users():
     for i in range(len(rows)):
         usernames.append(db(db.auth_user.id == rows[i]['user_id']).select(db.auth_user.username))
     return dict(rows=rows, usernames=usernames)
+
+@action("get_public_plate", method=["GET", "POST"])
+@action.uses(db, auth.user)
+def get_public_plate():
+    username = request.json.get("username")
+    public_plate = db((db.auth_user.username == username) & (db.public_plates.user_id == db.auth_user.id)).select(
+        db.plate.ALL).as_list()
+    return dict(plate=public_plate)
