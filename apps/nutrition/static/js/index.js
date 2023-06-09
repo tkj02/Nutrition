@@ -121,6 +121,7 @@ let init = (app) => {
                     localStorage.setItem('plateData', JSON.stringify(app.data.plate));
 
                     console.log("DATA HERE: ", JSON.stringify(app.data.plate));
+                    
                     // Updates totals table
                     axios.post("../update_total", {plate: app.data.plate}).then(function(response) {
                       var dict = {"quantity": response.data.quantity,
@@ -156,7 +157,21 @@ let init = (app) => {
             app.data.plate.splice(index, 1, entry);
             localStorage.setItem('plateData', JSON.stringify(app.data.plate));
           
-            
+            // Updates totals table
+            axios.post("../update_total", {plate: app.data.plate}).then(function(response) {
+              var dict = {"quantity": response.data.quantity,
+                          "calories": response.data.calories,
+                          "proteins": response.data.proteins,
+                          "lipid_fat": response.data.lipid_fat,
+                          "proteins": response.data.proteins,
+                          "carbs": response.data.carbs,
+                          "sugars": response.data.sugars,
+                          "fiber": response.data.fiber,
+                          "calcium": response.data.calcium,
+                          "iron": response.data.iron,
+                          "sodium": response.data.sodium};
+              app.data.total = dict;
+            });
         },
           
         
