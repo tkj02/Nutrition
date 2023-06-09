@@ -58,6 +58,9 @@ let init = (app) => {
             app.data.edit_food_mode = false;
             app.data.view_nutrition_mode = false;
             app.data.search_plates_mode = false;
+            
+            app.data.plates_search_bar = [];
+            app.data.plate_search_results = [];
         },
         
         add_entry_button: function(){
@@ -227,17 +230,20 @@ let init = (app) => {
             if (app.data.privacy_status){
                 axios.get('../make_plate_private').then(function(response) {
                     console.log('user removed from public plates db');
+                    axios.get('../get_public_users').then(function(response) {
+                      app.data.all_public_plates = response.data.usernames;
+                    });
                 });
             }
             // Set to false -- plate is public
             else{
                 axios.get('../make_plate_public').then(function(response) {
                     console.log('user added to public plates db');
+                    axios.get('../get_public_users').then(function(response) {
+                      app.data.all_public_plates = response.data.usernames;
+                    });
                 });
             }
-            axios.get('../get_public_users').then(function(response) {
-              app.data.all_public_plates = response.data.usernames;
-            });
         },
         
         filter_plate_search: function(){

@@ -26,7 +26,7 @@
             </ul>
         </div>
 
-        <h1 class="title">Quantity</h1>
+        <h1 class="title"><br>Quantity</h1>
         <div class="field">
             <textarea v-model="quantity" class="textarea" placeholder="Enter serving size as a whole number" rows="2"></textarea>
         </div>
@@ -53,7 +53,6 @@
         </div>
 
         <div v-if="searchResults.length > 0">
-            <h2>Search Results:</h2>
             <ul>
                 <li v-for="result in searchResults" :key="result.id">
                     <a href="javascript:void(0)" @click="selectFood(result)">{{ result.description }}</a>
@@ -61,7 +60,7 @@
             </ul>
         </div>
 
-        <h1 class="title">Nutritional Info</h1>
+        <h1 class="title"><br>Nutritional Information</h1>
         <div class="field">
             <table class="table is-striped is-fullwidth has-text-centered">
                 <tr>
@@ -105,7 +104,7 @@
     </div>
     
     <div v-else-if="search_plates_mode == true">
-        <h1 class="title">Search Plates</h1>
+        <h1 class="title">Lookup Public Plates</h1>
         
         <div class="field">
             <input class="input" v-model="plates_search_bar" v-on:keyup="filter_plate_search" placeholder="Search users">
@@ -115,7 +114,7 @@
             <a href="javascript:void(0)" @click="display_public_table">{{item}}</a>
         </ul>
         
-        <h1 class="title">Plate</h1>
+        <h1 class="title"><br>Plate</h1>
 
         <table class="table is-striped is-fullwidth has-text-centered">
             <tr>
