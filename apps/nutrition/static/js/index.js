@@ -317,6 +317,8 @@ let init = (app) => {
             app.data.calcium = food.foodNutrients[10].amount; // mg
             app.data.iron = food.foodNutrients[11].amount; // mg
             app.data.sodium = food.foodNutrients[15].amount; // mg         
+
+            app.data.searchResults = [];
         },
     };
 
