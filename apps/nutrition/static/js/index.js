@@ -148,6 +148,7 @@ let init = (app) => {
                         sodium: sodium
                     })
                     .then(function(response) {
+                    /*
                         const newEntry = {
                             ...response.data.plate_rows[0], // Assuming the API response returns a single entry
                             food_name: food_name,
@@ -167,6 +168,8 @@ let init = (app) => {
                         app.data.plate = [...app.data.plate, newEntry];
                         console.log(app.data.plate);
                         localStorage.setItem('plateData', JSON.stringify(app.data.plate));
+                        */
+                        app.data.plate = response.data.plate_rows;
                         // Updates totals table
                         axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
                             const dict = {
