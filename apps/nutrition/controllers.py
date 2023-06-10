@@ -29,8 +29,8 @@ def index():
         check_privacy_url = URL('check_privacy', signer=url_signer),
         get_public_users_url = URL('get_public_users', signer=url_signer),
         get_public_plate_url = URL('get_public_plate', signer=url_signer),
-        get_user_item_id_url = URL('get_user_item_id_url', signer=url_signer),
-        update_edit_url = URL('update_edit_url', signer=url_signer),
+        get_user_item_id_url = URL('get_user_item_id', signer=url_signer),
+        update_edit_url = URL('update_edit', signer=url_signer),
         url_signer=url_signer
     )
 
