@@ -8,7 +8,7 @@ def get_username():
     return auth.current_user.get('username') if auth.current_user else None
 
 db.define_table(
-    'plate',
+    'plates',
     Field('food_name', 'string', requires=IS_NOT_EMPTY()),
     Field('quantity', requires=IS_NOT_EMPTY()),
     Field('calories', 'float', requires=IS_NOT_EMPTY()),

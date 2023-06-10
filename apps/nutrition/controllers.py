@@ -29,6 +29,8 @@ def index():
         check_privacy_url = URL('check_privacy', signer=url_signer),
         get_public_users_url = URL('get_public_users', signer=url_signer),
         get_public_plate_url = URL('get_public_plate', signer=url_signer),
+        get_user_item_id_url = URL('get_user_item_id_url', signer=url_signer),
+        update_edit_url = URL('update_edit_url', signer=url_signer),
         url_signer=url_signer
     )
 
@@ -45,27 +47,52 @@ def get_food_data():
 @action.uses(db, auth.user)
 def remove_food():
     entry_id = request.json.get("entry_id")
-
-    try:
-        entry = db((db.plate.id == entry_id)).select().first()
-        if entry:
-            entry.delete_record()
-            print("Entry deleted successfully from the plate table.")
-            return dict(success=True)
-        else:
-            print("Entry not found in the plate table.")
-    except Exception as e:
-        print(f"Error removing entry from the plate table: {e}")
-
-    return dict(success=False)
-
+    db((db.plates.id == entry_id)).delete()
+    return dict()
 
 # Gets all entries in the plate for current user
-@action("get_plate")
+@action("get_plate", method=["GET", "POST"])
 @action.uses(db, auth.user)
 def get_plate():
-    rows = db(db.plate.created_by == auth.current_user.get('id')).select().as_list()
+    rows = db(db.plates.created_by == auth.current_user.get('id')).select().as_list()
     return dict(rows=rows)
+
+@action("get_user_item_id", method=["GET", "POST"])
+@action.uses(db, auth.user)
+def get_user_item_id():
+    user_item_id = request.json.get("user_item_id")
+    user_rows = db(db.plates.id == user_item_id).select(db.plates.quantity).as_list()
+    return dict(user_rows=user_rows);
+
+@action("update_edit", method=["GET", "POST"])
+@action.uses(db, auth.user)
+def update_edit():
+    user_item_id = request.json.get("user_item_id")
+    quantity = request.json.get("quantity")
+    calories = request.json.get("calories")
+    proteins = request.json.get("proteins")
+    lipid_fat = request.json.get("lipid_fat")
+    carbs = request.json.get("carbs")
+    sugars = request.json.get("sugars")
+    fiber = request.json.get("fiber")
+    calcium = request.json.get("calcium")
+    iron = request.json.get("iron")
+    sodium = request.json.get("sodium")
+    
+    db(db.plates.id == user_item_id).update(
+        quantity=quantity,
+        calories=calories,
+        proteins=proteins,
+        lipid_fat=lipid_fat,
+        carbs=carbs,
+        sugars=sugars,
+        fiber=fiber,
+        calcium=calcium,
+        iron=iron,
+        sodium=sodium
+    )
+    
+    return dict()
 
 # Add new row to plate
 @action('add_food', method=["GET", "POST"])
@@ -83,34 +110,29 @@ def add_food():
     iron = request.json.get("iron")
     sodium = request.json.get("sodium")
     
-    try:
-        db.plate.insert(
-            #food_name=food_name,
-            quantity=quantity,
-            calories=calories,
-            proteins=proteins,
-            lipid_fat=lipid_fat,
-            carbs=carbs,
-            sugars=sugars,
-            fiber=fiber,
-            calcium=calcium,
-            iron=iron,
-            sodium=sodium
-        )
-        print("Data inserted successfully into the plate table.")
-    except Exception as e:
-        print(f"Error inserting row into plate table: {e}")
+    db.plates.insert(
+        food_name=food_name,
+        quantity=quantity,
+        calories=calories,
+        proteins=proteins,
+        lipid_fat=lipid_fat,
+        carbs=carbs,
+        sugars=sugars,
+        fiber=fiber,
+        calcium=calcium,
+        iron=iron,
+        sodium=sodium
+    )
     
-    plate_rows = db(db.plate).select().as_list()
+    plate_rows = db(db.plates.created_by == auth.current_user.get('id')).select().as_list()
     
-    #print("rows", plate_rows)
     return dict(plate_rows=plate_rows)
 
 
 @action('update_total', method=["GET", "POST"])
 @action.uses(db, auth.user)
 def update_total():
-    plate_rows = db(db.plate.created_by == auth.current_user.get('id')).select().as_list()
+    plate_rows = db(db.plates.created_by == auth.current_user.get('id')).select().as_list()
     quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
     for row in plate_rows:
@@ -179,6 +201,6 @@ def get_public_users():
 @action.uses(db, auth.user)
 def get_public_plate():
     username = request.json.get("username")
-    public_plate = db((db.auth_user.username == username) & (db.public_plates.user_id == db.auth_user.id)).select(
-        db.plate.ALL).as_list()
+    user_id = db(db.auth_user.username == username).select("id")[0]["_extra"]["id"];
+    public_plate = db(db.plates.created_by == user_id).select().as_list()
     return dict(plate=public_plate)
