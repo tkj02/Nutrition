@@ -361,16 +361,27 @@ let init = (app) => {
 
     // And this initializes it.
     app.init = () => {
+        // Show loading message
+        app.vue.isLoading = true;
+    
         // Fetch plate data from the server
         axios.get('../get_plate').then(function(response) {
-          app.vue.plate = response.data.rows;
+            app.vue.plate = response.data.rows;
         });
-      
+    
         // Fetch all foods data from the server
         axios.get('../get_food_data').then(function(response) {
             app.data.all_foods = response.data;
+            app.vue.isLoading = false;
+            
+            if(app.data.add_food_mode == true){
+                // Hide loading message after the data is loaded
+                console.log("HI");
+                app.methods.main_page_button();
+                app.methods.add_entry_button();
+            }
         });
-      
+    
         // Updates totals table
         axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
             const dict = {
@@ -387,12 +398,11 @@ let init = (app) => {
             };
             app.data.total = dict;
         });
-        
+    
         axios.get('../get_public_users').then(function(response) {
             app.data.all_public_plates = response.data.usernames;
         });
-        
-      };
+    };    
 
     // Call to the initializer.
     app.init();
