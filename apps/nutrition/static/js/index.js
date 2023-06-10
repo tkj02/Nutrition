@@ -339,9 +339,13 @@ let init = (app) => {
             
             if(app.data.add_food_mode == true){
                 // Hide loading message after the data is loaded
-                console.log("HI");
                 app.methods.main_page_button();
                 app.methods.add_entry_button();
+            }
+            else if(app.data.view_nutrition_mode == true){
+                // Hide loading message after the data is loaded
+                app.methods.main_page_button();
+                app.methods.view_info_button();
             }
         });
     
