@@ -106,21 +106,21 @@ let init = (app) => {
             axios.post("../remove_food", { entry_id: entry_id })
                 .then(function(response) {
                 // Updates totals table
-                /*axios.post("../update_total", { plate: app.data.plate }).then(function(response) {
-                    var dict = {
-                        "quantity": response.data.quantity,
-                        "calories": response.data.calories,
-                        "proteins": response.data.proteins,
-                        "lipid_fat": response.data.lipid_fat,
-                        "carbs": response.data.carbs,
-                        "sugars": response.data.sugars,
-                        "fiber": response.data.fiber,
-                        "calcium": response.data.calcium,
-                        "iron": response.data.iron,
-                        "sodium": response.data.sodium
+                axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
+                    const dict = {
+                        quantity: response.data.quantity,
+                        calories: (response.data.calories).toFixed(2),
+                        proteins: (response.data.proteins).toFixed(2),
+                        lipid_fat: (response.data.lipid_fat).toFixed(2),
+                        carbs: (response.data.carbs).toFixed(2),
+                        sugars: (response.data.sugars).toFixed(2),
+                        fiber: (response.data.fiber).toFixed(2),
+                        calcium: (response.data.calcium).toFixed(2),
+                        iron: (response.data.iron).toFixed(2),
+                        sodium: (response.data.sodium).toFixed(2),
                     };
                     app.data.total = dict;
-                });*/
+                });
                 location.reload();
             }).catch(function(error) {
                 console.log("Error deleting entry:", error);
@@ -171,19 +171,20 @@ let init = (app) => {
                     //console.log("DATA HERE: ", JSON.stringify(app.data.plate));
                     
                     // Updates totals table
-                    axios.post("../update_total", {plate: app.data.plate}).then(function(response) {
-                      var dict = {"quantity": response.data.quantity,
-                                  "calories": response.data.calories,
-                                  "proteins": response.data.proteins,
-                                  "lipid_fat": response.data.lipid_fat,
-                                  "proteins": response.data.proteins,
-                                  "carbs": response.data.carbs,
-                                  "sugars": response.data.sugars,
-                                  "fiber": response.data.fiber,
-                                  "calcium": response.data.calcium,
-                                  "iron": response.data.iron,
-                                  "sodium": response.data.sodium};
-                      app.data.total = dict;
+                    axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
+                        const dict = {
+                            quantity: response.data.quantity,
+                            calories: (response.data.calories).toFixed(2),
+                            proteins: (response.data.proteins).toFixed(2),
+                            lipid_fat: (response.data.lipid_fat).toFixed(2),
+                            carbs: (response.data.carbs).toFixed(2),
+                            sugars: (response.data.sugars).toFixed(2),
+                            fiber: (response.data.fiber).toFixed(2),
+                            calcium: (response.data.calcium).toFixed(2),
+                            iron: (response.data.iron).toFixed(2),
+                            sodium: (response.data.sodium).toFixed(2),
+                        };
+                        app.data.total = dict;
                     });
                 });
 
@@ -214,10 +215,6 @@ let init = (app) => {
                 return;
             }
             
-            //get og info from db.plates
-            //multiple values
-            //add new values to plate with .update
-            
             axios.post('../get_user_item_id', {user_item_id: item.id}).then(function(response) {
                 //console.log(response.data.user_rows[0]['quantity']);
                 var originalQuantity = Number(response.data.user_rows[0]['quantity']);
@@ -225,25 +222,37 @@ let init = (app) => {
                 
                 axios.post('../update_edit', {user_item_id: item.id,
                                               quantity: newQuantity,
-                                              calories: app.data.plate[index].calories*ratio,
-                                              proteins: app.data.plate[index].proteins*ratio,
-                                              lipid_fat: app.data.plate[index].lipid_fat*ratio,
-                                              carbs: app.data.plate[index].carbs*ratio,
-                                              sugars: app.data.plate[index].sugars*ratio,
-                                              fiber: app.data.plate[index].fiber*ratio,
-                                              calcium: app.data.plate[index].calcium*ratio,
-                                              iron: app.data.plate[index].iron*ratio,
-                                              sodium: app.data.plate[index].sodium*ratio,}).then(function(response) {
-                    console.log('successful');
-                    axios.get('../get_plate').then(function(response) {
-                      app.vue.plate = response.data.rows;
-                    });
-                });
-                
-            });
-            
-            
-          
+                                              calories: (app.data.plate[index].calories*ratio).toFixed(2),
+                                              proteins: (app.data.plate[index].proteins*ratio).toFixed(2),
+                                              lipid_fat: (app.data.plate[index].lipid_fat*ratio).toFixed(2),
+                                              carbs: (app.data.plate[index].carbs*ratio).toFixed(2),
+                                              sugars: (app.data.plate[index].sugars*ratio).toFixed(2),
+                                              fiber: (app.data.plate[index].fiber*ratio).toFixed(2),
+                                              calcium: (app.data.plate[index].calcium*ratio).toFixed(2),
+                                              iron: (app.data.plate[index].iron*ratio).toFixed(2),
+                                              sodium: (app.data.plate[index].sodium*ratio).toFixed(2)}
+                          ).then(function(response) {
+                                axios.get('../get_plate').then(function(response) {
+                                    app.vue.plate = response.data.rows;
+                                    // Update totals table
+                                    axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
+                                        const dict = {
+                                            quantity: response.data.quantity,
+                                            calories: (response.data.calories).toFixed(2),
+                                            proteins: (response.data.proteins).toFixed(2),
+                                            lipid_fat: (response.data.lipid_fat).toFixed(2),
+                                            carbs: (response.data.carbs).toFixed(2),
+                                            sugars: (response.data.sugars).toFixed(2),
+                                            fiber: (response.data.fiber).toFixed(2),
+                                            calcium: (response.data.calcium).toFixed(2),
+                                            iron: (response.data.iron).toFixed(2),
+                                            sodium: (response.data.sodium).toFixed(2),
+                                        };
+                                        app.data.total = dict;
+                                    });
+                                });
+                        });
+            });    
             /*
             // Update the quantity for the specified food entry
             const entry = app.data.plate[index];
@@ -377,19 +386,20 @@ let init = (app) => {
         });
       
         // Updates totals table
-        axios.post("../update_total", {plate: app.data.plate}).then(function(response) {
-          var dict = {"quantity": response.data.quantity,
-                      "calories": response.data.calories,
-                      "proteins": response.data.proteins,
-                      "lipid_fat": response.data.lipid_fat,
-                      "proteins": response.data.proteins,
-                      "carbs": response.data.carbs,
-                      "sugars": response.data.sugars,
-                      "fiber": response.data.fiber,
-                      "calcium": response.data.calcium,
-                      "iron": response.data.iron,
-                      "sodium": response.data.sodium};
-          app.data.total = dict;
+        axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
+            const dict = {
+                quantity: response.data.quantity,
+                calories: (response.data.calories).toFixed(2),
+                proteins: (response.data.proteins).toFixed(2),
+                lipid_fat: (response.data.lipid_fat).toFixed(2),
+                carbs: (response.data.carbs).toFixed(2),
+                sugars: (response.data.sugars).toFixed(2),
+                fiber: (response.data.fiber).toFixed(2),
+                calcium: (response.data.calcium).toFixed(2),
+                iron: (response.data.iron).toFixed(2),
+                sodium: (response.data.sodium).toFixed(2),
+            };
+            app.data.total = dict;
         });
         
         axios.get('../get_public_users').then(function(response) {
