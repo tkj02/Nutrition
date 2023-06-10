@@ -47,8 +47,7 @@
 
         <h1 class="title">Food Name</h1>
         <div class="field">
-            <input v-model="food_name" class="input" type="text" placeholder="Search for a food item" @input="searchFoods">
-            <button class="button" @click="searchFoods">Search</button>
+            <input v-model="food_name" class="input" type="text" :placeholder="isLoading ? 'Loading' : 'Search for a food item'" :disabled="isLoading" @input="searchFoods">
         </div>
 
         <div v-if="searchResults.length > 0">
