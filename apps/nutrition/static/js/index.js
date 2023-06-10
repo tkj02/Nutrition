@@ -100,8 +100,6 @@ let init = (app) => {
         remove_entry: function(index) {
             const entry = app.data.plate[index];
             const entry_id = entry.id;
-            console.log("Entry ID to be deleted:", entry_id);
-            console.log("Plate entries:", app.data.plate);
         
             axios.post("../remove_food", { entry_id: entry_id })
                 .then(function(response) {
@@ -167,9 +165,6 @@ let init = (app) => {
                     };
                     app.data.plate = [...app.data.plate, newEntry];
                     localStorage.setItem('plateData', JSON.stringify(app.data.plate));
-
-                    //console.log("DATA HERE: ", JSON.stringify(app.data.plate));
-                    
                     // Updates totals table
                     axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
                         const dict = {
@@ -216,7 +211,6 @@ let init = (app) => {
             }
             
             axios.post('../get_user_item_id', {user_item_id: item.id}).then(function(response) {
-                //console.log(response.data.user_rows[0]['quantity']);
                 var originalQuantity = Number(response.data.user_rows[0]['quantity']);
                 const ratio = newQuantity / originalQuantity;
                 
@@ -259,7 +253,6 @@ let init = (app) => {
             if (entry) {
                 var originalQuantity = entry.originalQuantity; // Get the original quantity or default to 1
                 const ratio = newQuantity / originalQuantity; // Calculate the ratio between the new and original quantity
-                //console.log(originalQuantity);
                 entry.quantity = newQuantity;
                 entry.originalQuantity = newQuantity;
                 app.data.plate.splice(index, 1, entry);
@@ -299,7 +292,6 @@ let init = (app) => {
             // Set to true -- plate is private
             if (app.data.privacy_status){
                 axios.get('../make_plate_private').then(function(response) {
-                    console.log('user removed from public plates db');
                     axios.get('../get_public_users').then(function(response) {
                       app.data.all_public_plates = response.data.usernames;
                     });
@@ -308,7 +300,6 @@ let init = (app) => {
             // Set to false -- plate is public
             else{
                 axios.get('../make_plate_public').then(function(response) {
-                    console.log('user added to public plates db');
                     axios.get('../get_public_users').then(function(response) {
                       app.data.all_public_plates = response.data.usernames;
                     });
@@ -328,11 +319,9 @@ let init = (app) => {
         display_public_table: function(username) {
             axios.post("../get_public_plate", { username: username })
               .then(function(response) {
-                console.log(response.data); // Log the response data
                 app.data.public_plate = response.data.plate;
               })
               .catch(function(error) {
-                console.log(error); // Log any errors
               });
         },
         
@@ -349,7 +338,6 @@ let init = (app) => {
         },
 
         selectFood: function(food) {
-            //console.log(food.description);
             app.data.food_name = food.description;
             
             app.data.proteins = food.foodNutrients[0].amount; // grams
@@ -360,9 +348,7 @@ let init = (app) => {
             app.data.fiber = food.foodNutrients[9].amount; // grams
             app.data.calcium = food.foodNutrients[10].amount; // mg
             app.data.iron = food.foodNutrients[11].amount; // mg
-            app.data.sodium = food.foodNutrients[15].amount; // mg
-            
-            //console.log(food.foodNutrients[3].amount, food.foodNutrients[3].nutrient.unitName);
+            app.data.sodium = food.foodNutrients[15].amount; // mg         
         },
     };
 
