@@ -62,7 +62,7 @@ def get_plate():
 def get_user_item_id():
     user_item_id = request.json.get("user_item_id")
     user_rows = db(db.plates.id == user_item_id).select(db.plates.quantity).as_list()
-    return dict(user_rows=user_rows);
+    return dict(user_rows=user_rows)
 
 @action("update_edit", method=["GET", "POST"])
 @action.uses(db, auth.user)

@@ -200,17 +200,18 @@ let init = (app) => {
                 }
                 const entry = app.data.plate[index];
                 if (entry) {
-                    entry.quantity = entry.originalQuantity;
+                    // If originalQuantity doesn't exist, use newQuantity as fallback
+                    entry.quantity = entry.originalQuantity ;
                 }
                 return;
             }
-          
+        
             // Check if the index is within the range of the plate array
             if (index < 0 || index >= app.data.plate.length) {
                 alert("Invalid index.\nReturning to the main page.");
                 return;
             }
-            
+        
             axios.post('../get_user_item_id', {user_item_id: item.id}).then(function(response) {
                 var originalQuantity = Number(response.data.user_rows[0]['quantity']);
                 const ratio = newQuantity / originalQuantity;
