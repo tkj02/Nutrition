@@ -68,16 +68,16 @@ def get_user_item_id():
 @action.uses(db, auth.user)
 def update_edit():
     user_item_id = request.json.get("user_item_id")
-    quantity = request.json.get("quantity")
-    calories = request.json.get("calories")
-    proteins = request.json.get("proteins")
-    lipid_fat = request.json.get("lipid_fat")
-    carbs = request.json.get("carbs")
-    sugars = request.json.get("sugars")
-    fiber = request.json.get("fiber")
-    calcium = request.json.get("calcium")
-    iron = request.json.get("iron")
-    sodium = request.json.get("sodium")
+    quantity = float(request.json.get("quantity"))
+    calories = str(float(request.json.get("calories")))
+    proteins = str(float(request.json.get("proteins")))
+    lipid_fat = str(float(request.json.get("lipid_fat")))
+    carbs = str(float(request.json.get("carbs")))
+    sugars = str(float(request.json.get("sugars")))
+    fiber = str(float(request.json.get("fiber")))
+    calcium = str(float(request.json.get("calcium")))
+    iron = str(float(request.json.get("iron")))
+    sodium = str(float(request.json.get("sodium")))
     
     db(db.plates.id == user_item_id).update(
         quantity=quantity,
@@ -99,20 +99,20 @@ def update_edit():
 @action.uses(db, auth.user)
 def add_food():
     food_name = request.json.get("food_name")
-    quantity = request.json.get("quantity")
-    calories = request.json.get("calories")
-    proteins = request.json.get("proteins")
-    lipid_fat = request.json.get("lipid_fat")
-    carbs = request.json.get("carbs")
-    sugars = request.json.get("sugars")
-    fiber = request.json.get("fiber")
-    calcium = request.json.get("calcium")
-    iron = request.json.get("iron")
-    sodium = request.json.get("sodium")
+    quantity = float(request.json.get("quantity")) # Make sure to convert 'quantity' to float
+    calories = str(float(request.json.get("calories")) * quantity)
+    proteins = str(float(request.json.get("proteins")) * quantity)
+    lipid_fat = str(float(request.json.get("lipid_fat")) * quantity)
+    carbs = str(float(request.json.get("carbs")) * quantity)
+    sugars = str(float(request.json.get("sugars")) * quantity)
+    fiber = str(float(request.json.get("fiber")) * quantity)
+    calcium = str(float(request.json.get("calcium")) * quantity)
+    iron = str(float(request.json.get("iron")) * quantity)
+    sodium = str(float(request.json.get("sodium")) * quantity)
     
     db.plates.insert(
         food_name=food_name,
-        quantity=quantity,
+        quantity=float(quantity),  # Convert 'quantity' back to string after multiplication
         calories=calories,
         proteins=proteins,
         lipid_fat=lipid_fat,
