@@ -152,7 +152,7 @@ let init = (app) => {
                         ...response.data.plate_rows[0], // Assuming the API response returns a single entry
                         food_name: food_name,
                         quantity: quantity, // Update the quantity for the new entry
-                        originalQuantity: (quantity).toFixed(2),
+                        originalQuantity: String(Number(quantity).toFixed(2)),
                         calories: String(Number(((Number(quantity))*(Number(calories))).toFixed(2))),
                         proteins: String(Number(((Number(quantity))*(Number(proteins))).toFixed(2))),
                         lipid_fat: String(Number(((Number(quantity))*(Number(lipid_fat))).toFixed(2))),
@@ -215,7 +215,7 @@ let init = (app) => {
                 const ratio = newQuantity / originalQuantity;
                 
                 axios.post('../update_edit', {user_item_id: item.id,
-                                              quantity: (newQuantity).toFixed(2),
+                                              quantity: Number(newQuantity).toFixed(2),
                                               calories: (app.data.plate[index].calories*ratio).toFixed(2),
                                               proteins: (app.data.plate[index].proteins*ratio).toFixed(2),
                                               lipid_fat: (app.data.plate[index].lipid_fat*ratio).toFixed(2),

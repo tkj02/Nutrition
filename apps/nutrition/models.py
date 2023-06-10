@@ -10,7 +10,7 @@ def get_username():
 db.define_table(
     'plates',
     Field('food_name', 'string', requires=IS_NOT_EMPTY()),
-    Field('quantity', requires=IS_NOT_EMPTY()),
+    Field('quantity', 'float', requires=IS_NOT_EMPTY()),
     Field('calories', 'float', requires=IS_NOT_EMPTY()),
     Field('proteins', 'float', requires=IS_NOT_EMPTY()),
     Field('lipid_fat', 'float', requires=IS_NOT_EMPTY()),
