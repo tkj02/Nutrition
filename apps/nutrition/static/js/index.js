@@ -149,40 +149,41 @@ let init = (app) => {
                     })
                     .then(function(response) {
                         const newEntry = {
-                        ...response.data.plate_rows[0], // Assuming the API response returns a single entry
-                        food_name: food_name,
-                        quantity: quantity, // Update the quantity for the new entry
-                        originalQuantity: quantity,
-                        calories: String(Number((Number(quantity))*(Number(calories)).toFixed(2))),// Assign the calories value
-                        proteins: String(Number((Number(quantity))*(Number(proteins)).toFixed(2))),
-                        lipid_fat: String(Number((Number(quantity))*(Number(lipid_fat)).toFixed(2))),
-                        carbs: String(Number((Number(quantity))*(Number(carbs)).toFixed(2))),
-                        sugars: String(Number((Number(quantity))*(Number(sugars)).toFixed(2))),
-                        fiber: String(Number((Number(quantity))*(Number(fiber)).toFixed(2))),
-                        calcium: String(Number((Number(quantity))*(Number(calcium)).toFixed(2))),
-                        iron: String(Number((Number(quantity))*(Number(iron)).toFixed(2))),
-                        sodium: String(Number((Number(quantity))*(Number(sodium)).toFixed(2)))
-                    };
-                    app.data.plate = [...app.data.plate, newEntry];
-                    localStorage.setItem('plateData', JSON.stringify(app.data.plate));
-                    // Updates totals table
-                    axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
-                        const dict = {
-                            quantity: response.data.quantity,
-                            calories: (response.data.calories).toFixed(2),
-                            proteins: (response.data.proteins).toFixed(2),
-                            lipid_fat: (response.data.lipid_fat).toFixed(2),
-                            carbs: (response.data.carbs).toFixed(2),
-                            sugars: (response.data.sugars).toFixed(2),
-                            fiber: (response.data.fiber).toFixed(2),
-                            calcium: (response.data.calcium).toFixed(2),
-                            iron: (response.data.iron).toFixed(2),
-                            sodium: (response.data.sodium).toFixed(2),
+                            ...response.data.plate_rows[0], // Assuming the API response returns a single entry
+                            food_name: food_name,
+                            quantity: quantity, // Update the quantity for the new entry
+                            originalQuantity: quantity,
+                            calories: String(Number((Number(quantity))*(Number(calories))).toFixed(2)),
+                            proteins: String(Number((Number(quantity))*(Number(proteins))).toFixed(2)),
+                            lipid_fat: String(Number((Number(quantity))*(Number(lipid_fat))).toFixed(2)),
+                            carbs: String(Number((Number(quantity))*(Number(carbs))).toFixed(2)),
+                            sugars: String(Number((Number(quantity))*(Number(sugars))).toFixed(2)),
+                            fiber: String(Number((Number(quantity))*(Number(fiber))).toFixed(2)),
+                            calcium: String(Number((Number(quantity))*(Number(calcium))).toFixed(2)),
+                            iron: String(Number((Number(quantity))*(Number(iron))).toFixed(2)),
+                            sodium: String(Number((Number(quantity))*(Number(sodium))).toFixed(2))
                         };
-                        app.data.total = dict;
+                        console.log(newEntry);
+                        app.data.plate = [...app.data.plate, newEntry];
+                        console.log(app.data.plate);
+                        localStorage.setItem('plateData', JSON.stringify(app.data.plate));
+                        // Updates totals table
+                        axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
+                            const dict = {
+                                quantity: response.data.quantity,
+                                calories: (response.data.calories).toFixed(2),
+                                proteins: (response.data.proteins).toFixed(2),
+                                lipid_fat: (response.data.lipid_fat).toFixed(2),
+                                carbs: (response.data.carbs).toFixed(2),
+                                sugars: (response.data.sugars).toFixed(2),
+                                fiber: (response.data.fiber).toFixed(2),
+                                calcium: (response.data.calcium).toFixed(2),
+                                iron: (response.data.iron).toFixed(2),
+                                sodium: (response.data.sodium).toFixed(2),
+                            };
+                            app.data.total = dict;
+                        });
                     });
-                });
-
             }
             // Redirects to the main page
             app.methods.main_page_button();
