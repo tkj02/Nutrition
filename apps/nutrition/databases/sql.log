@@ -147,3 +147,4 @@ CREATE TABLE "plates"(
     "is_active" CHAR(1)
 );
 success!
+success!
