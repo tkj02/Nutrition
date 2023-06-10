@@ -14,7 +14,7 @@
 
 <strong>User Stories</strong>
 <br>The nutrition tracking app we are building will allow users to create an account, select common foods, and view their nutritional information for set servings. The app will provide a summary of the user's nutritional intake across all selections at the bottom. Users can edit their plate by adding, deleting, or editing entries and modifying the name and number of servings of each food to fit their dietary needs.
-<br><img width="1440" alt="Screen Shot 2023-06-09 at 7 35 33 PM" src="https://github.com/tkj02/Nutrition/assets/95245871/854a6f9a-2503-4846-bd7f-7fa69dc96057">
+<br><img width="1440" alt="Screen Shot 2023-06-09 at 8 27 32 PM" src="https://github.com/tkj02/Nutrition/assets/95245871/b1f8cf10-3ac0-4276-9b7b-98dcfbdf804b">
 <br>Users can add selected foods to a table that displays all the foods on their plate and their nutritional information, and specify the amount of each food to see the running total of their nutritional values.
 <br><img width="1440" alt="Screen Shot 2023-06-09 at 7 35 40 PM" src="https://github.com/tkj02/Nutrition/assets/95245871/e608780f-1f21-457c-857b-b2a50c3b0314">
 <br>Additionally, users can view the nutritional details of each food item by searching for it on the "View Nutrition" page.
