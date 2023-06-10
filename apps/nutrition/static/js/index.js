@@ -247,43 +247,6 @@ let init = (app) => {
                                 });
                         });
             });    
-            /*
-            // Update the quantity for the specified food entry
-            const entry = app.data.plate[index];
-            if (entry) {
-                var originalQuantity = entry.originalQuantity; // Get the original quantity or default to 1
-                const ratio = newQuantity / originalQuantity; // Calculate the ratio between the new and original quantity
-                entry.quantity = newQuantity;
-                entry.originalQuantity = newQuantity;
-                app.data.plate.splice(index, 1, entry);
-                localStorage.setItem("plateData", JSON.stringify(app.data.plate));
-            
-                // Calculate and update the other nutrients based on the ratio
-                const nutrients = ["calories", "proteins", "lipid_fat", "carbs", "sugars", "fiber", "calcium", "iron", "sodium"];
-                nutrients.forEach((nutrient) => {
-                    entry[nutrient] = String((Number(entry[nutrient]) * ratio).toFixed(2));
-                });
-          
-                // Update totals table
-                axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
-                    const dict = {
-                        quantity: response.data.quantity,
-                        calories: response.data.calories,
-                        proteins: response.data.proteins,
-                        lipid_fat: response.data.lipid_fat,
-                        carbs: response.data.carbs,
-                        sugars: response.data.sugars,
-                        fiber: response.data.fiber,
-                        calcium: response.data.calcium,
-                        iron: response.data.iron,
-                        sodium: response.data.sodium,
-                    };
-                    app.data.total = dict;
-                });
-            } else {
-                alert("Invalid entry.\nReturning to the main page.");
-            }
-            */
         },                    
         
         change_privacy: function(){
