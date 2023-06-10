@@ -192,7 +192,7 @@ let init = (app) => {
             app.methods.main_page_button();
         },
 
-        updateQuantity: function(index, newQuantity) {
+        updateQuantity: function(index, item, newQuantity) {
             // Validate the new quantity input
             if (newQuantity <= 0) {
                 if (newQuantity < 0) {
@@ -213,7 +213,38 @@ let init = (app) => {
                 alert("Invalid index.\nReturning to the main page.");
                 return;
             }
+            
+            //get og info from db.plates
+            //multiple values
+            //add new values to plate with .update
+            
+            axios.post('../get_user_item_id', {user_item_id: item.id}).then(function(response) {
+                //console.log(response.data.user_rows[0]['quantity']);
+                var originalQuantity = Number(response.data.user_rows[0]['quantity']);
+                const ratio = newQuantity / originalQuantity;
+                
+                axios.post('../update_edit', {user_item_id: item.id,
+                                              quantity: newQuantity,
+                                              calories: app.data.plate[index].calories*ratio,
+                                              proteins: app.data.plate[index].proteins*ratio,
+                                              lipid_fat: app.data.plate[index].lipid_fat*ratio,
+                                              carbs: app.data.plate[index].carbs*ratio,
+                                              sugars: app.data.plate[index].sugars*ratio,
+                                              fiber: app.data.plate[index].fiber*ratio,
+                                              calcium: app.data.plate[index].calcium*ratio,
+                                              iron: app.data.plate[index].iron*ratio,
+                                              sodium: app.data.plate[index].sodium*ratio,}).then(function(response) {
+                    console.log('successful');
+                    axios.get('../get_plate').then(function(response) {
+                      app.vue.plate = response.data.rows;
+                    });
+                });
+                
+            });
+            
+            
           
+            /*
             // Update the quantity for the specified food entry
             const entry = app.data.plate[index];
             if (entry) {
@@ -250,6 +281,7 @@ let init = (app) => {
             } else {
                 alert("Invalid entry.\nReturning to the main page.");
             }
+            */
         },                    
         
         change_privacy: function(){
