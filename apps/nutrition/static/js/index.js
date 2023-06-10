@@ -106,7 +106,7 @@ let init = (app) => {
                 // Updates totals table
                 axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
                     const dict = {
-                        quantity: response.data.quantity,
+                        quantity: (response.data.quantity).toFixed(2),
                         calories: (response.data.calories).toFixed(2),
                         proteins: (response.data.proteins).toFixed(2),
                         lipid_fat: (response.data.lipid_fat).toFixed(2),
@@ -128,7 +128,7 @@ let init = (app) => {
         
         add_entry: function(food_name, quantity, calories, proteins, lipid_fat, carbs, sugars, fiber, calcium, iron, sodium) {
             // Validates quantity input
-            if (quantity < 0) {
+            if (quantity <= 0) {
                 alert("Quantity is not valid.\nReturning to main page.")
                 app.data.quantity = "";
             } else {
@@ -152,7 +152,7 @@ let init = (app) => {
                         ...response.data.plate_rows[0], // Assuming the API response returns a single entry
                         food_name: food_name,
                         quantity: quantity, // Update the quantity for the new entry
-                        originalQuantity: quantity,
+                        originalQuantity: (quantity).toFixed(2),
                         calories: String(Number(((Number(quantity))*(Number(calories))).toFixed(2))),
                         proteins: String(Number(((Number(quantity))*(Number(proteins))).toFixed(2))),
                         lipid_fat: String(Number(((Number(quantity))*(Number(lipid_fat))).toFixed(2))),
@@ -168,7 +168,7 @@ let init = (app) => {
                     // Updates totals table
                     axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
                         const dict = {
-                            quantity: response.data.quantity,
+                            quantity: (response.data.quantity).toFixed(2),
                             calories: (response.data.calories).toFixed(2),
                             proteins: (response.data.proteins).toFixed(2),
                             lipid_fat: (response.data.lipid_fat).toFixed(2),
@@ -215,7 +215,7 @@ let init = (app) => {
                 const ratio = newQuantity / originalQuantity;
                 
                 axios.post('../update_edit', {user_item_id: item.id,
-                                              quantity: newQuantity,
+                                              quantity: (newQuantity).toFixed(2),
                                               calories: (app.data.plate[index].calories*ratio).toFixed(2),
                                               proteins: (app.data.plate[index].proteins*ratio).toFixed(2),
                                               lipid_fat: (app.data.plate[index].lipid_fat*ratio).toFixed(2),
@@ -231,7 +231,7 @@ let init = (app) => {
                                     // Update totals table
                                     axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
                                         const dict = {
-                                            quantity: response.data.quantity,
+                                            quantity: (response.data.quantity).toFixed(2),
                                             calories: (response.data.calories).toFixed(2),
                                             proteins: (response.data.proteins).toFixed(2),
                                             lipid_fat: (response.data.lipid_fat).toFixed(2),
@@ -374,7 +374,7 @@ let init = (app) => {
         // Updates totals table
         axios.post("../update_total", { plate: app.data.plate }).then(function (response) {
             const dict = {
-                quantity: response.data.quantity,
+                quantity: (response.data.quantity).toFixed(2),
                 calories: (response.data.calories).toFixed(2),
                 proteins: (response.data.proteins).toFixed(2),
                 lipid_fat: (response.data.lipid_fat).toFixed(2),

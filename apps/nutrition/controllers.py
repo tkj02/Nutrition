@@ -112,7 +112,7 @@ def add_food():
     
     db.plates.insert(
         food_name=food_name,
-        quantity=str(quantity),  # Convert 'quantity' back to string after multiplication
+        quantity=float(quantity),  # Convert 'quantity' back to string after multiplication
         calories=calories,
         proteins=proteins,
         lipid_fat=lipid_fat,
