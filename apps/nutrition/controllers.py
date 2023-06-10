@@ -68,16 +68,16 @@ def get_user_item_id():
 @action.uses(db, auth.user)
 def update_edit():
     user_item_id = request.json.get("user_item_id")
-    quantity = request.json.get("quantity")
-    calories = request.json.get("calories")
-    proteins = request.json.get("proteins")
-    lipid_fat = request.json.get("lipid_fat")
-    carbs = request.json.get("carbs")
-    sugars = request.json.get("sugars")
-    fiber = request.json.get("fiber")
-    calcium = request.json.get("calcium")
-    iron = request.json.get("iron")
-    sodium = request.json.get("sodium")
+    quantity = round(float(request.json.get("quantity")), 2)
+    calories = str(round(float(request.json.get("calories")), 2))
+    proteins = str(round(float(request.json.get("proteins")), 2))
+    lipid_fat = str(round(float(request.json.get("lipid_fat")), 2))
+    carbs = str(round(float(request.json.get("carbs")), 2))
+    sugars = str(round(float(request.json.get("sugars")), 2))
+    fiber = str(round(float(request.json.get("fiber")), 2))
+    calcium = str(round(float(request.json.get("calcium")), 2))
+    iron = str(round(float(request.json.get("iron")), 2))
+    sodium = str(round(float(request.json.get("sodium")), 2))
     
     db(db.plates.id == user_item_id).update(
         quantity=quantity,
@@ -99,16 +99,16 @@ def update_edit():
 @action.uses(db, auth.user)
 def add_food():
     food_name = request.json.get("food_name")
-    quantity = request.json.get("quantity")
-    calories = request.json.get("calories")
-    proteins = request.json.get("proteins")
-    lipid_fat = request.json.get("lipid_fat")
-    carbs = request.json.get("carbs")
-    sugars = request.json.get("sugars")
-    fiber = request.json.get("fiber")
-    calcium = request.json.get("calcium")
-    iron = request.json.get("iron")
-    sodium = request.json.get("sodium")
+    quantity = round(float(request.json.get("quantity")), 2)
+    calories = str(round(float(request.json.get("calories") * quantity), 2))
+    proteins = str(round(float(request.json.get("proteins") * quantity), 2))
+    lipid_fat = str(round(float(request.json.get("lipid_fat") * quantity), 2))
+    carbs = str(round(float(request.json.get("carbs") * quantity), 2))
+    sugars = str(round(float(request.json.get("sugars") * quantity), 2))
+    fiber = str(round(float(request.json.get("fiber") * quantity), 2))
+    calcium = str(round(float(request.json.get("calcium") * quantity), 2))
+    iron = str(round(float(request.json.get("iron") * quantity), 2))
+    sodium = str(round(float(request.json.get("sodium") * quantity), 2))
     
     db.plates.insert(
         food_name=food_name,
@@ -138,16 +138,16 @@ def update_total():
     for row in plate_rows:
         if isinstance(row, dict):
             # Calculation logic using row["quantity"], row["calories"], etc.
-            quantity += float(row["quantity"])
-            calories += float(row["calories"])
-            proteins += float(row["proteins"])
-            lipid_fat += float(row["lipid_fat"])
-            carbs += float(row["carbs"])
-            sugars += float(row["sugars"])
-            fiber += float(row["fiber"])
-            calcium += float(row["calcium"])
-            iron += float(row["iron"])
-            sodium += float(row["sodium"])
+            quantity += round(float(row["quantity"]), 2)
+            calories += round(float(row["calories"]), 2)
+            proteins += round(float(row["proteins"]), 2)
+            lipid_fat += round(float(row["lipid_fat"]), 2)
+            carbs += round(float(row["carbs"]), 2)
+            sugars += round(float(row["sugars"]), 2)
+            fiber += round(float(row["fiber"]), 2)
+            calcium += round(float(row["calcium"]), 2)
+            iron += round(float(row["iron"]), 2)
+            sodium += round(float(row["sodium"]), 2)
         else:
             # Handle non-dictionary row elements in the list
             print("Non-dictionary element found in the plate_rows list.")
